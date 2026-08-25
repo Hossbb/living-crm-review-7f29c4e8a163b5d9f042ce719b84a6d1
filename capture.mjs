@@ -57,4 +57,4 @@ fs.writeFileSync('review/meta.json', JSON.stringify({
 
 await browser.close();
 
-// Review capture version 5 — direct top-level Apps Script web app capture.
+// Review capture version 6 — rerun after Apps Script/Sheet authorization.
