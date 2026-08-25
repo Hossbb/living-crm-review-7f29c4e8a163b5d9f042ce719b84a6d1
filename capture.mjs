@@ -39,3 +39,5 @@ fs.writeFileSync('review/meta.json', JSON.stringify({
 }, null, 2), 'utf8');
 
 await browser.close();
+
+// Review capture version 1.
