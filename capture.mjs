@@ -57,4 +57,4 @@ fs.writeFileSync('review/meta.json', JSON.stringify({
 
 await browser.close();
 
-// Review capture version 8 — sam-baba development deployment.
+// Review capture version 9 — verify sam-baba live app and sheet access.
