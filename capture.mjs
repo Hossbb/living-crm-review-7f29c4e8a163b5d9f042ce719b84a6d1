@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 import fs from 'node:fs';
 
 const reviewUrl = 'https://hossbb.github.io/living-crm-review-7f29c4e8a163b5d9f042ce719b84a6d1/';
-const expectedAppUrl = 'https://script.google.com/macros/s/AKfycbxZWSNiPHXlrehA2bpjNWSZwWeRdAUZpgQOFlfpyJhQIghsR9ie5Z01tqnoxM__hnfG/exec';
+const appUrl = 'https://script.google.com/macros/s/AKfycbxZWSNiPHXlrehA2bpjNWSZwWeRdAUZpgQOFlfpyJhQIghsR9ie5Z01tqnoxM__hnfG/exec';
 fs.mkdirSync('review', { recursive: true });
 
 const browser = await chromium.launch({ headless: true });
@@ -12,7 +12,7 @@ page.on('console', msg => logs.push(`[console:${msg.type()}] ${msg.text()}`));
 page.on('pageerror', err => logs.push(`[pageerror] ${err.message}`));
 page.on('requestfailed', req => logs.push(`[requestfailed] ${req.url()} :: ${req.failure()?.errorText || ''}`));
 
-await page.goto(reviewUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
+await page.goto(appUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
 await page.waitForTimeout(12000);
 
 await page.screenshot({ path: 'review/latest.png', fullPage: true });
@@ -27,12 +27,11 @@ await page.pdf({
 const frames = page.frames();
 const candidates = [];
 for (const frame of frames) {
-  if (frame === page.mainFrame()) continue;
   let text = '';
   let html = '';
   try { text = await frame.locator('body').innerText(); } catch {}
   try { html = await frame.content(); } catch {}
-  candidates.push({ frame, text, html, url: frame.url() });
+  candidates.push({ text, html, url: frame.url() });
 }
 
 const appCandidate =
@@ -42,7 +41,7 @@ const appCandidate =
 
 const appText = appCandidate?.text || '';
 const appHtml = appCandidate?.html || '';
-const appUrl = appCandidate?.url || '';
+const renderedUrl = page.url();
 
 fs.writeFileSync('review/latest.txt', appText, 'utf8');
 fs.writeFileSync('review/latest-app.html', appHtml, 'utf8');
@@ -50,12 +49,12 @@ fs.writeFileSync('review/console.txt', logs.join('\n'), 'utf8');
 fs.writeFileSync('review/meta.json', JSON.stringify({
   capturedAt: new Date().toISOString(),
   reviewUrl,
-  expectedAppUrl,
   appUrl,
+  renderedUrl,
   frameCount: frames.length,
   matchedLivingCrm: /TODAY'S WORKLIST|WHY TODAY|Living CRM|Ava Carter/i.test(appText)
 }, null, 2), 'utf8');
 
 await browser.close();
 
-// Review capture version 4 — real Apps Script web-app deployment.
+// Review capture version 5 — direct top-level Apps Script web app capture.
