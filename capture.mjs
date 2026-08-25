@@ -2,6 +2,7 @@ import { chromium } from 'playwright';
 import fs from 'node:fs';
 
 const reviewUrl = 'https://hossbb.github.io/living-crm-review-7f29c4e8a163b5d9f042ce719b84a6d1/';
+const expectedAppUrl = 'https://script.google.com/macros/s/AKfycbxZWSNiPHXlrehA2bpjNWSZwWeRdAUZpgQOFlfpyJhQIghsR9ie5Z01tqnoxM__hnfG/exec';
 fs.mkdirSync('review', { recursive: true });
 
 const browser = await chromium.launch({ headless: true });
@@ -12,7 +13,7 @@ page.on('pageerror', err => logs.push(`[pageerror] ${err.message}`));
 page.on('requestfailed', req => logs.push(`[requestfailed] ${req.url()} :: ${req.failure()?.errorText || ''}`));
 
 await page.goto(reviewUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
-await page.waitForTimeout(10000);
+await page.waitForTimeout(12000);
 
 await page.screenshot({ path: 'review/latest.png', fullPage: true });
 await page.pdf({
@@ -24,16 +25,24 @@ await page.pdf({
 });
 
 const frames = page.frames();
-const appFrame = frames.find(frame => frame !== page.mainFrame() && frame.url() !== 'about:blank');
-
-let appText = '';
-let appHtml = '';
-let appUrl = '';
-if (appFrame) {
-  appUrl = appFrame.url();
-  try { appText = await appFrame.locator('body').innerText(); } catch {}
-  try { appHtml = await appFrame.content(); } catch {}
+const candidates = [];
+for (const frame of frames) {
+  if (frame === page.mainFrame()) continue;
+  let text = '';
+  let html = '';
+  try { text = await frame.locator('body').innerText(); } catch {}
+  try { html = await frame.content(); } catch {}
+  candidates.push({ frame, text, html, url: frame.url() });
 }
+
+const appCandidate =
+  candidates.find(item => /TODAY'S WORKLIST|WHY TODAY|Living CRM|Ava Carter/i.test(item.text)) ||
+  candidates.sort((a, b) => b.text.length - a.text.length)[0] ||
+  null;
+
+const appText = appCandidate?.text || '';
+const appHtml = appCandidate?.html || '';
+const appUrl = appCandidate?.url || '';
 
 fs.writeFileSync('review/latest.txt', appText, 'utf8');
 fs.writeFileSync('review/latest-app.html', appHtml, 'utf8');
@@ -41,10 +50,12 @@ fs.writeFileSync('review/console.txt', logs.join('\n'), 'utf8');
 fs.writeFileSync('review/meta.json', JSON.stringify({
   capturedAt: new Date().toISOString(),
   reviewUrl,
+  expectedAppUrl,
   appUrl,
-  frameCount: frames.length
+  frameCount: frames.length,
+  matchedLivingCrm: /TODAY'S WORKLIST|WHY TODAY|Living CRM|Ava Carter/i.test(appText)
 }, null, 2), 'utf8');
 
 await browser.close();
 
-// Review capture version 3 — refresh after Living CRM deployment @4.
+// Review capture version 4 — real Apps Script web-app deployment.
