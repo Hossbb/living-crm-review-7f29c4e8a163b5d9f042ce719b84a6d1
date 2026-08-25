@@ -1,0 +1,50 @@
+[console:warning] Unrecognized feature: 'local-network-access'.
+[console:warning] Unrecognized feature: 'web-share'.
+[console:error] Potential permissions policy violation: autoplay is not allowed in this document.
+[console:error] Potential permissions policy violation: encrypted-media is not allowed in this document.
+[console:error] Potential permissions policy violation: fullscreen is not allowed in this document.
+[console:error] Potential permissions policy violation: geolocation is not allowed in this document.
+[console:error] Potential permissions policy violation: midi is not allowed in this document.
+[console:error] Potential permissions policy violation: payment is not allowed in this document.
+[console:error] Potential permissions policy violation: accelerometer is not allowed in this document.
+[console:error] Potential permissions policy violation: gyroscope is not allowed in this document.
+[console:error] Potential permissions policy violation: magnetometer is not allowed in this document.
+[console:error] Potential permissions policy violation: screen-wake-lock is not allowed in this document.
+[console:error] Potential permissions policy violation: autoplay is not allowed in this document.
+[console:error] Potential permissions policy violation: camera is not allowed in this document.
+[console:error] Potential permissions policy violation: encrypted-media is not allowed in this document.
+[console:error] Potential permissions policy violation: fullscreen is not allowed in this document.
+[console:error] Potential permissions policy violation: geolocation is not allowed in this document.
+[console:error] Potential permissions policy violation: microphone is not allowed in this document.
+[console:error] Potential permissions policy violation: midi is not allowed in this document.
+[console:error] Potential permissions policy violation: payment is not allowed in this document.
+[console:error] Potential permissions policy violation: usb is not allowed in this document.
+[console:error] Potential permissions policy violation: accelerometer is not allowed in this document.
+[console:error] Potential permissions policy violation: gyroscope is not allowed in this document.
+[console:error] Potential permissions policy violation: magnetometer is not allowed in this document.
+[console:error] Potential permissions policy violation: screen-wake-lock is not allowed in this document.
+[console:error] Potential permissions policy violation: autoplay is not allowed in this document.
+[console:error] Potential permissions policy violation: encrypted-media is not allowed in this document.
+[console:error] Potential permissions policy violation: fullscreen is not allowed in this document.
+[console:error] Potential permissions policy violation: geolocation is not allowed in this document.
+[console:error] Potential permissions policy violation: midi is not allowed in this document.
+[console:error] Potential permissions policy violation: payment is not allowed in this document.
+[console:error] Potential permissions policy violation: accelerometer is not allowed in this document.
+[console:error] Potential permissions policy violation: gyroscope is not allowed in this document.
+[console:error] Potential permissions policy violation: magnetometer is not allowed in this document.
+[console:error] Potential permissions policy violation: screen-wake-lock is not allowed in this document.
+[console:error] Potential permissions policy violation: autoplay is not allowed in this document.
+[console:error] Potential permissions policy violation: camera is not allowed in this document.
+[console:error] Potential permissions policy violation: encrypted-media is not allowed in this document.
+[console:error] Potential permissions policy violation: fullscreen is not allowed in this document.
+[console:error] Potential permissions policy violation: geolocation is not allowed in this document.
+[console:error] Potential permissions policy violation: microphone is not allowed in this document.
+[console:error] Potential permissions policy violation: midi is not allowed in this document.
+[console:error] Potential permissions policy violation: payment is not allowed in this document.
+[console:error] Potential permissions policy violation: usb is not allowed in this document.
+[console:error] Potential permissions policy violation: accelerometer is not allowed in this document.
+[console:error] Potential permissions policy violation: gyroscope is not allowed in this document.
+[console:error] Potential permissions policy violation: magnetometer is not allowed in this document.
+[console:error] Potential permissions policy violation: screen-wake-lock is not allowed in this document.
+[console:info] Net state changed from IDLE to BUSY
+[console:info] Net state changed from BUSY to IDLE
