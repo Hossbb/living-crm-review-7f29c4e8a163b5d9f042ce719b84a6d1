@@ -1,17 +1,10 @@
 <!DOCTYPE html><html><head><script src="//www.google.com/jsapi"></script><script>window.parent.maeExportApis_();</script>
 
-
-
   
-
     <base target="_top">
-
     <meta charset="utf-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
     <meta name="theme-color" content="#0f172a">
-
     <style>
   :root {
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -330,131 +323,68 @@
     .outcome-heading small { display: none; }
   }
 </style>
-
   </head>
-
   <body>
-
     <div class="app-shell">
-
       <header class="topbar">
-
         <div class="brand-block">
-
           <div class="brand-mark" aria-hidden="true">L</div>
-
           <div>
-
             <div class="brand-name">Living CRM</div>
-
             <div class="brand-subtitle">Botox concierge · Today only</div>
-
           </div>
-
         </div>
-
         <div class="topbar-actions">
-
           <span class="demo-badge">DEMO DATA</span>
-
           <button class="icon-button" id="refresh-btn" type="button" aria-label="Refresh">↻</button>
-
         </div>
-
       </header>
 
-
-
       <nav class="tabs" aria-label="CRM views">
-
         <button class="tab is-active" data-view="today" type="button">
-
           Today <span class="tab-count" id="today-tab-count">7</span>
-
         </button>
-
         <button class="tab" data-view="done" type="button">
-
           Done <span class="tab-count" id="done-tab-count">0</span>
-
         </button>
-
       </nav>
 
-
-
       <main class="main">
-
         <section id="loading-view" class="loading-card" hidden="">
-
           <div class="loading-line wide"></div>
-
           <div class="loading-line"></div>
-
           <div class="loading-line short"></div>
-
         </section>
 
-
-
         <section id="today-view" class="view">
-
           <div class="summary-strip" id="summary-strip">
-
             <div class="summary-item">
-
               <span class="summary-label">Assigned</span>
-
               <strong id="stat-assigned">7</strong>
-
             </div>
-
             <div class="summary-item emphasis">
-
               <span class="summary-label">Remaining</span>
-
               <strong id="stat-remaining">7</strong>
-
             </div>
-
             <div class="summary-item">
-
               <span class="summary-label">Booked</span>
-
               <strong id="stat-booked">0</strong>
-
             </div>
-
             <div class="progress-wrap" aria-label="Today's completion">
-
               <div class="progress-track"><div class="progress-bar" id="progress-bar" style="width: 0%;"></div></div>
-
               <span id="progress-label">0% complete</span>
-
             </div>
-
           </div>
 
-
-
           <div class="workspace">
-
             <aside class="queue-panel">
-
               <div class="queue-heading">
-
                 <div>
-
                   <span class="section-kicker">TODAY'S WORKLIST</span>
-
                   <h2>Next best calls</h2>
-
                 </div>
-
                 <span class="quiet" id="queue-count-label">7 remaining</span>
-
               </div>
-
               <div id="queue-list" class="queue-list"><button type="button" class="queue-item is-active">
         <span class="queue-rank">#1</span>
         <span class="queue-person">
@@ -505,244 +435,124 @@
         </span>
         <span class="queue-score">62%</span>
       </button></div>
-
             </aside>
 
-
-
             <section class="focus-panel" id="focus-panel">
-
               <div id="empty-state" class="empty-state" hidden="">
-
                 <div class="success-orb">✓</div>
-
                 <h2>Today's priority work is done.</h2>
-
                 <p>Every client in today's active queue has been handled.</p>
-
                 <button class="secondary-button" type="button" data-switch="done">Review completed work</button>
-
               </div>
 
-
-
               <article id="client-card" class="client-card">
-
                 <div class="client-header">
-
                   <div class="rank-chip" id="client-rank">#1</div>
-
                   <div class="client-title-group">
-
                     <div class="client-title-row">
-
                       <h1 id="client-name">Ava Carter</h1>
-
                       <span class="readiness-pill" id="client-readiness">87% likely</span>
-
                     </div>
-
                     <div class="client-subline">
-
                       <span id="client-action">CALL TODAY</span>
-
                       <span class="separator">·</span>
-
                       <span id="client-provider">Dr. Rivera</span>
-
                     </div>
-
                   </div>
-
                 </div>
-
-
 
                 <div class="why-card">
-
                   <div class="why-icon">✦</div>
-
                   <div>
-
                     <div class="why-label">WHY TODAY</div>
-
                     <p id="client-reason">Usually returns in 104–112 days; today is day 107 and her pattern is very consistent.</p>
-
                   </div>
-
                 </div>
-
-
 
                 <div class="metric-grid">
-
                   <div class="metric primary-metric">
-
                     <span>Days since treatment</span>
-
                     <strong id="client-days">107</strong>
-
                     <small id="cadence-delta">1 days before typical</small>
-
                   </div>
-
                   <div class="metric">
-
                     <span>Typical cadence</span>
-
                     <strong><span id="client-cadence">108</span><small> days</small></strong>
-
                   </div>
-
                   <div class="metric">
-
                     <span>Last treatment</span>
-
                     <strong id="client-last-tx">May 10</strong>
-
                   </div>
-
                   <div class="metric">
-
                     <span>Last units</span>
-
                     <strong id="client-units">42 units</strong>
-
                   </div>
-
                 </div>
-
-
 
                 <div class="growth-row">
-
                   <div>
-
                     <span class="growth-label">SEPARATE GROWTH ACTION</span>
-
                     <strong id="client-growth">Maintain regular cadence</strong>
-
                   </div>
-
                   <span class="growth-badge">Nurture</span>
-
                 </div>
-
-
 
                 <div class="call-row">
-
                   <a class="call-button" id="call-button" href="tel:7575550101" aria-label="Call Ava Carter">Call <span id="client-phone">757-555-0101</span></a>
-
                   <button class="secondary-button" id="copy-phone" type="button">Copy phone</button>
-
                 </div>
-
-
 
                 <div class="outcome-section">
-
                   <div class="outcome-heading">
-
                     <span>What happened?</span>
-
                     <small>One tap, then move on.</small>
-
                   </div>
-
                   <div class="outcome-grid">
-
                     <button class="outcome-button" data-outcome="No Answer" type="button"><span>○</span>No answer</button>
-
                     <button class="outcome-button positive" data-outcome="Booked" type="button"><span>✓</span>Booked</button>
-
                     <button class="outcome-button" data-outcome="Not Ready" type="button"><span>◷</span>Not ready</button>
-
                     <button class="outcome-button" data-outcome="Wants Later" type="button"><span>→</span>Call later</button>
-
                     <button class="outcome-button" data-outcome="Traveling" type="button"><span>✈</span>Away</button>
-
                     <button class="outcome-button" data-outcome="More" type="button"><span>•••</span>Other</button>
-
                   </div>
-
                 </div>
-
               </article>
-
             </section>
-
           </div>
-
         </section>
-
-
 
         <section id="done-view" class="view" hidden="">
-
           <div class="done-header">
-
             <div>
-
               <span class="section-kicker">TODAY'S EXECUTION</span>
-
               <h1>Done today</h1>
-
               <p>Lightweight execution metrics—not another analytics dashboard.</p>
-
             </div>
-
           </div>
-
           <div class="done-stats">
-
             <div><span>Attempted</span><strong id="done-attempted">0</strong></div>
-
             <div><span>Answered</span><strong id="done-answered">0</strong></div>
-
             <div><span>Booked</span><strong id="done-booked">0</strong></div>
-
             <div><span>Booking rate</span><strong id="done-rate">0%</strong></div>
-
           </div>
-
           <div id="done-list" class="done-list"><div class="empty-state" style="min-height:260px"><div><strong>No calls completed yet.</strong><p>Your completed work will appear here automatically.</p></div></div></div>
-
         </section>
-
-
 
         <section id="error-view" class="error-card" hidden="">
-
           <strong>Living CRM could not load.</strong>
-
           <p id="error-message">Please refresh and try again.</p>
-
           <button class="secondary-button" type="button" id="error-retry">Try again</button>
-
         </section>
-
       </main>
-
     </div>
 
-
-
     <div class="sheet-backdrop" id="sheet-backdrop" hidden=""></div>
-
     <section class="action-sheet" id="action-sheet" hidden="" aria-modal="true" role="dialog">
-
       <div class="sheet-handle"></div>
-
       <div id="sheet-content"></div>
-
     </section>
 
-
-
     <div class="toast" id="toast" hidden=""></div>
-
-
 
     <script>
   const CRM = {
@@ -1153,9 +963,6 @@
     loadApp_();
   });
 </script>
-
   
-
-
 
 </body></html>
