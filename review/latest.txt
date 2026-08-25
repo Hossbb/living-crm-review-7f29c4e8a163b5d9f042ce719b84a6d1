@@ -1,0 +1,10 @@
+LIVING CRM
+SDR workspace scaffold
+
+The GitHub → Apps Script structure is in place. No production client data is loaded yet.
+
+Apps Script connection is working.
+Version
+0.1.0
+Data source
+Configured

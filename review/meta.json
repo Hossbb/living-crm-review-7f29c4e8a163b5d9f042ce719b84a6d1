@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-08-25T20:25:02.450Z",
+  "capturedAt": "2026-08-25T20:27:15.429Z",
   "reviewUrl": "https://hossbb.github.io/living-crm-review-7f29c4e8a163b5d9f042ce719b84a6d1/",
-  "expectedAppUrl": "https://script.google.com/macros/s/AKfycbxZWSNiPHXlrehA2bpjNWSZwWeRdAUZpgQOFlfpyJhQIghsR9ie5Z01tqnoxM__hnfG/exec",
-  "appUrl": "chrome-error://chromewebdata/",
-  "frameCount": 2,
-  "matchedLivingCrm": false
+  "appUrl": "https://script.google.com/macros/s/AKfycbxZWSNiPHXlrehA2bpjNWSZwWeRdAUZpgQOFlfpyJhQIghsR9ie5Z01tqnoxM__hnfG/exec",
+  "renderedUrl": "https://script.google.com/macros/s/AKfycbxZWSNiPHXlrehA2bpjNWSZwWeRdAUZpgQOFlfpyJhQIghsR9ie5Z01tqnoxM__hnfG/exec",
+  "frameCount": 3,
+  "matchedLivingCrm": true
 }
