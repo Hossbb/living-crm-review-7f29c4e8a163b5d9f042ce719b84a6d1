@@ -1,10 +1,12 @@
-LIVING CRM
-SDR workspace scaffold
+L
+Living CRM
+Botox concierge · Today only
+DEMO DATA
+↻
+Today —
+Done 0
+Living CRM could not load.
 
-The GitHub → Apps Script structure is in place. No production client data is loaded yet.
+Exception: You do not have permission to access the requested document.
 
-Apps Script connection is working.
-Version
-0.1.0
-Data source
-Configured
+Try again
