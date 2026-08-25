@@ -15,6 +15,13 @@ await page.goto(reviewUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
 await page.waitForTimeout(10000);
 
 await page.screenshot({ path: 'review/latest.png', fullPage: true });
+await page.pdf({
+  path: 'review/latest.pdf',
+  width: '1440px',
+  height: '1000px',
+  printBackground: true,
+  margin: { top: '0px', right: '0px', bottom: '0px', left: '0px' }
+});
 
 const frames = page.frames();
 const appFrame = frames.find(frame => frame !== page.mainFrame() && frame.url() !== 'about:blank');
@@ -40,4 +47,4 @@ fs.writeFileSync('review/meta.json', JSON.stringify({
 
 await browser.close();
 
-// Review capture version 1.
+// Review capture version 2.
