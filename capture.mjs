@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 import fs from 'node:fs';
 
 const reviewUrl = 'https://hossbb.github.io/living-crm-review-7f29c4e8a163b5d9f042ce719b84a6d1/';
-const appUrl = 'https://script.google.com/macros/s/AKfycbxZWSNiPHXlrehA2bpjNWSZwWeRdAUZpgQOFlfpyJhQIghsR9ie5Z01tqnoxM__hnfG/exec';
+const appUrl = 'https://script.google.com/macros/s/AKfycbyAbfQz8QH8nj8tFzmitHnO3I5Kb1QowZDIa47v1UwsrModv2CZXqvTd_UJx97faXiNXg/exec';
 fs.mkdirSync('review', { recursive: true });
 
 const browser = await chromium.launch({ headless: true });
@@ -57,4 +57,4 @@ fs.writeFileSync('review/meta.json', JSON.stringify({
 
 await browser.close();
 
-// Review capture version 7 — permission retest after development access change.
+// Review capture version 8 — sam-baba development deployment.
