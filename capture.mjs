@@ -57,4 +57,4 @@ fs.writeFileSync('review/meta.json', JSON.stringify({
 
 await browser.close();
 
-// Review capture version 6 — rerun after Apps Script/Sheet authorization.
+// Review capture version 7 — permission retest after development access change.
