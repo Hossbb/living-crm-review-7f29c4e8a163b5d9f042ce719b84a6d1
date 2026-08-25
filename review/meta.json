@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-08-25T20:56:08.250Z",
+  "capturedAt": "2026-08-25T21:07:56.540Z",
   "reviewUrl": "https://hossbb.github.io/living-crm-review-7f29c4e8a163b5d9f042ce719b84a6d1/",
   "appUrl": "https://script.google.com/macros/s/AKfycbxZWSNiPHXlrehA2bpjNWSZwWeRdAUZpgQOFlfpyJhQIghsR9ie5Z01tqnoxM__hnfG/exec",
-  "renderedUrl": "https://script.google.com/macros/s/AKfycbxZWSNiPHXlrehA2bpjNWSZwWeRdAUZpgQOFlfpyJhQIghsR9ie5Z01tqnoxM__hnfG/exec",
-  "frameCount": 3,
-  "matchedLivingCrm": true
+  "renderedUrl": "https://accounts.google.com/v3/signin/identifier?continue=https://script.google.com/macros/s/AKfycbxZWSNiPHXlrehA2bpjNWSZwWeRdAUZpgQOFlfpyJhQIghsR9ie5Z01tqnoxM__hnfG/exec&followup=https://script.google.com/macros/s/AKfycbxZWSNiPHXlrehA2bpjNWSZwWeRdAUZpgQOFlfpyJhQIghsR9ie5Z01tqnoxM__hnfG/exec&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&dsh=S-1895613478:1787692064143060",
+  "frameCount": 2,
+  "matchedLivingCrm": false
 }
