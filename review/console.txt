@@ -1,1 +1,2 @@
-[console:error] Failed to load resource: the server responded with a status of 404 ()
+[requestfailed] https://script.google.com/macros/s/AKfycbxZWSNiPHXlrehA2bpjNWSZwWeRdAUZpgQOFlfpyJhQIghsR9ie5Z01tqnoxM__hnfG/exec :: net::ERR_BLOCKED_BY_RESPONSE
+[console:error] Refused to display 'https://script.google.com/' in a frame because it set 'X-Frame-Options' to 'sameorigin'.
