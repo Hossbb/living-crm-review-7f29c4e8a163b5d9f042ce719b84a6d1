@@ -47,4 +47,4 @@ fs.writeFileSync('review/meta.json', JSON.stringify({
 
 await browser.close();
 
-// Review capture version 2.
+// Review capture version 3 — refresh after Living CRM deployment @4.
