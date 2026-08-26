@@ -1,82 +1,92 @@
 L
 Living CRM
-Botox concierge · Today only
-DEMO DATA
-↻
-Today 7
-Done 0
-Assigned
-7
-Remaining
-7
-Booked
-0
-0% complete
-TODAY'S WORKLIST
-Next best calls
-7 remaining
-#1
-Ava Carter Day 107 · usual 108d
-87%
-#2
-Maya Brooks Day 96 · usual 101d
-82%
-#3
-Sofia Bennett Day 121 · usual 116d
-78%
-#4
-Nora Ellis Day 103 · usual 106d
-74%
-#5
-Emma Stonefield Day 134 · usual 134d
-69%
-#6
-Lena Foster Day 94 · usual 98d
-65%
-#7
-Olivia Hart Day 151 · usual 126d
-62%
-✓
-Today's priority work is done.
+SDR Design Lab · evaluation only
+PREVIEW · NO DATA WRITES
+Back to current app
+10 INTERACTION MODELS
+Choose a design
+01
+Next-Best-Action Queue
+02
+Power-Dialer Workspace
+03
+Inbox / Task Queue
+04
+Kanban Board
+05
+Focus Mode
+06
+Command Center
+07
+Conversation Timeline CRM
+08
+Exception Queue
+09
+Calendar / Time-Block View
+10
+Classic CRM Pipeline
+MODEL 01
+Next-Best-Action Queue
 
-Every client in today's active queue has been handled.
+One client at a time. The system decides who is next and removes choice from execution.
 
-Review completed work
+FIT FOR LIVING CRM
+Best fit
+Today · 7 remaining
 #1
 Ava Carter
-87% likely
-CALL TODAY · Dr. Rivera
-✦
-WHY TODAY
-
+Day 107 · usual 108d
+87%
+#2
+Maya Brooks
+Day 96 · usual 101d
+82%
+#3
+Sofia Bennett
+Day 121 · usual 116d
+78%
+#4
+Nora Ellis
+Day 103 · usual 106d
+74%
+#5
+Emma Stonefield
+Day 134 · usual 134d
+69%
+#6
+Lena Foster
+Day 94 · usual 98d
+65%
+#7
+Olivia Hart
+Day 151 · usual 126d
+62%
+#1
+Ava Carter
+87%
+CALL NOW · Dr. Rivera · Day 107 of usual 108 days
+Why now
 Usually returns in 104–112 days; today is day 107 and her pattern is very consistent.
-
-Days since treatment
+DAYS SINCE TX
 107
-1 days before typical
-Typical cadence
-108 days
-Last treatment
-May 10
-Last units
-42 units
-SEPARATE GROWTH ACTION
+TYPICAL CADENCE
+108d
+LAST UNITS
+42
+GROWTH ACTION
 Maintain regular cadence
-Nurture
-Call
-757-555-0101
-Copy phone
-What happened?
-One tap, then move on.
-○
+☎ Call 757-555-0101
 No answer
-✓
 Booked
-◷
 Not ready
-→
 Call later
-✈
 Away
-•••
 Other
+FASTEST TO OPERATE
+Excellent
+LOWEST COGNITIVE LOAD
+Excellent
+MANAGER VISIBILITY
+Medium
+BEST USE
+Primary SDR workspace

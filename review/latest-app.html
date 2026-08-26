@@ -4,964 +4,571 @@
     <base target="_top">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#0b1020">
     <style>
   :root {
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     color: #0f172a;
-    background: #f7f8fa;
-    --ink: #0f172a;
-    --muted: #64748b;
-    --line: #e6e9ef;
-    --soft: #f3f5f8;
+    background: #f5f7fb;
+    --ink: #111827;
+    --muted: #667085;
+    --line: #e5e9f0;
     --card: #ffffff;
-    --navy: #111827;
-    --accent: #635bff;
+    --soft: #f7f8fb;
+    --accent: #5b5cf0;
     --accent-soft: #efefff;
-    --green: #138a5b;
-    --green-soft: #eaf8f1;
-    --amber: #a65d05;
-    --amber-soft: #fff6e8;
-    --danger: #c2413d;
-    --shadow: 0 14px 42px rgba(15, 23, 42, .07);
+    --green: #147a55;
+    --green-soft: #eaf7f0;
+    --amber: #9a5a08;
+    --amber-soft: #fff4e5;
+    --red: #b42318;
+    --red-soft: #fff0ee;
+    --navy: #101828;
+    --shadow: 0 14px 36px rgba(16,24,40,.08);
   }
-
   * { box-sizing: border-box; }
-  html { background: #f7f8fa; }
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background:
-      radial-gradient(circle at 20% -10%, rgba(99, 91, 255, .08), transparent 28%),
-      #f7f8fa;
-    color: var(--ink);
-  }
+  body { margin: 0; min-height: 100vh; background: #f5f7fb; color: var(--ink); }
   button, input, textarea { font: inherit; }
-  button, a { -webkit-tap-highlight-color: transparent; }
   button { cursor: pointer; }
+  .lab-shell { min-height: 100vh; }
+  .lab-topbar {
+    height: 70px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between;
+    background: rgba(255,255,255,.94); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20;
+    backdrop-filter: blur(14px);
+  }
+  .lab-brand { display: flex; align-items: center; gap: 11px; }
+  .lab-mark { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 11px; background: var(--navy); color: white; font-weight: 900; }
+  .lab-brand-name { font-weight: 800; letter-spacing: -.02em; }
+  .lab-brand-sub { color: var(--muted); font-size: 12px; margin-top: 1px; }
+  .lab-top-actions { display: flex; align-items: center; gap: 10px; }
+  .preview-badge { padding: 6px 9px; border-radius: 999px; background: var(--amber-soft); color: var(--amber); font-size: 10px; font-weight: 850; letter-spacing: .08em; }
+  .back-link { color: #344054; text-decoration: none; font-size: 13px; font-weight: 750; padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; background: white; }
+  .lab-body { display: grid; grid-template-columns: 270px minmax(0,1fr); min-height: calc(100vh - 70px); }
+  .model-nav { border-right: 1px solid var(--line); background: #fff; padding: 18px 12px; position: sticky; top: 70px; height: calc(100vh - 70px); overflow-y: auto; }
+  .model-nav-head { padding: 8px 10px 14px; }
+  .model-nav-head span, .eyebrow { display: block; color: #98a2b3; font-size: 10px; font-weight: 850; letter-spacing: .12em; }
+  .model-nav-head strong { display: block; margin-top: 5px; font-size: 17px; }
+  .model-button {
+    width: 100%; display: grid; grid-template-columns: 32px 1fr; gap: 9px; align-items: center; text-align: left;
+    border: 1px solid transparent; background: transparent; border-radius: 12px; padding: 10px; color: #475467; margin-bottom: 4px;
+  }
+  .model-button:hover { background: #f8f9fb; }
+  .model-button.is-active { background: var(--accent-soft); border-color: #d8d7ff; color: #3730a3; }
+  .model-index { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: #f2f4f7; color: #667085; font-size: 11px; font-weight: 850; }
+  .model-button.is-active .model-index { background: var(--accent); color: white; }
+  .model-label { min-width: 0; font-size: 13px; font-weight: 760; line-height: 1.2; }
+  .lab-main { padding: 26px; max-width: 1600px; width: 100%; margin: 0 auto; }
+  .lab-intro { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 18px; }
+  .lab-intro h1 { margin: 5px 0 7px; font-size: clamp(28px, 3vw, 42px); letter-spacing: -.045em; line-height: 1; }
+  .lab-intro p { margin: 0; color: var(--muted); font-size: 14px; max-width: 760px; }
+  .fit-card { flex: 0 0 auto; min-width: 170px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line); background: white; }
+  .fit-card span { color: #98a2b3; font-size: 9px; letter-spacing: .1em; font-weight: 850; }
+  .fit-card strong { display: block; margin-top: 5px; font-size: 16px; }
+  .prototype-stage { min-height: 650px; border: 1px solid var(--line); border-radius: 22px; background: white; box-shadow: var(--shadow); overflow: hidden; }
+  .loading-state { min-height: 650px; display: grid; place-items: center; color: var(--muted); }
+  .evaluation-strip { margin-top: 14px; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
+  .evaluation-strip > div { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+  .evaluation-strip span { display: block; color: #98a2b3; font-size: 9px; font-weight: 850; letter-spacing: .08em; }
+  .evaluation-strip strong { display: block; margin-top: 4px; font-size: 13px; }
 
-  .app-shell { min-height: 100vh; }
-  .topbar {
-    height: 72px;
-    padding: 0 max(22px, calc((100vw - 1440px) / 2));
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(230,233,239,.85);
-    background: rgba(255,255,255,.84);
-    backdrop-filter: blur(16px);
-    position: sticky;
-    top: 0;
-    z-index: 20;
-  }
-  .brand-block { display: flex; align-items: center; gap: 12px; }
-  .brand-mark {
-    width: 38px; height: 38px; border-radius: 12px;
-    display: grid; place-items: center;
-    background: var(--navy); color: white;
-    font-weight: 800; letter-spacing: -.04em;
-  }
-  .brand-name { font-weight: 780; letter-spacing: -.02em; }
-  .brand-subtitle { color: var(--muted); font-size: 12px; margin-top: 2px; }
-  .topbar-actions { display: flex; align-items: center; gap: 10px; }
-  .demo-badge {
-    font-size: 10px; letter-spacing: .11em; font-weight: 800;
-    color: #8a4b00; background: #fff4df; border: 1px solid #f4dfb8;
-    border-radius: 999px; padding: 6px 9px;
-  }
-  .icon-button {
-    width: 38px; height: 38px; border-radius: 11px;
-    border: 1px solid var(--line); background: white; color: #475569;
-    font-size: 20px;
-  }
+   
+  .preview-top { height: 58px; padding: 0 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); background: #fff; }
+  .preview-title { font-weight: 800; }
+  .preview-meta { color: var(--muted); font-size: 12px; }
+  .score { display: inline-grid; place-items: center; min-width: 48px; height: 30px; border-radius: 999px; background: var(--green-soft); color: var(--green); font-size: 12px; font-weight: 850; padding: 0 9px; }
+  .rank { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 9px; background: #111827; color: white; font-size: 11px; font-weight: 850; }
+  .action-primary { border: 0; background: #111827; color: white; min-height: 48px; border-radius: 12px; padding: 0 18px; font-weight: 800; }
+  .action-secondary { border: 1px solid var(--line); background: white; color: #344054; min-height: 44px; border-radius: 11px; padding: 0 14px; font-weight: 730; }
+  .outcome-row { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 7px; }
+  .outcome-mini { min-height: 42px; border: 1px solid var(--line); background: white; border-radius: 10px; color: #475467; font-size: 11px; font-weight: 760; }
+  .outcome-mini.book { background: var(--green-soft); color: var(--green); border-color: #cdebdc; }
+  .reason-box { padding: 14px 15px; border-radius: 13px; background: var(--accent-soft); border: 1px solid #dedcff; color: #344054; line-height: 1.45; font-size: 13px; }
+  .metric-row { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; }
+  .metric-tile { border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: white; }
+  .metric-tile span { display: block; color: #98a2b3; font-size: 9px; font-weight: 800; letter-spacing: .06em; }
+  .metric-tile strong { display: block; margin-top: 5px; font-size: 18px; }
 
-  .tabs {
-    max-width: 1440px; margin: 0 auto;
-    height: 54px; padding: 0 22px;
-    display: flex; align-items: flex-end; gap: 28px;
-    border-bottom: 1px solid var(--line);
-  }
-  .tab {
-    height: 54px; padding: 0 2px;
-    border: 0; background: transparent; color: #64748b;
-    font-weight: 700; position: relative;
-  }
-  .tab.is-active { color: var(--ink); }
-  .tab.is-active::after {
-    content: ""; position: absolute; left: 0; right: 0; bottom: -1px;
-    height: 2px; background: var(--ink); border-radius: 2px 2px 0 0;
-  }
-  .tab-count {
-    display: inline-grid; place-items: center; min-width: 22px; height: 22px;
-    margin-left: 5px; padding: 0 6px; border-radius: 999px;
-    background: #eef1f5; color: #475569; font-size: 11px;
-  }
-  .tab.is-active .tab-count { background: #e7e8ff; color: #4f46e5; }
+   
+  .nba { display: grid; grid-template-columns: 260px minmax(0,1fr); min-height: 650px; }
+  .nba-queue { border-right: 1px solid var(--line); padding: 12px; background: #fbfcfe; }
+  .nba-queue h3 { margin: 4px 6px 10px; font-size: 14px; }
+  .nba-item { width: 100%; display: grid; grid-template-columns: 28px 1fr auto; gap: 8px; align-items: center; border: 0; border-radius: 11px; background: transparent; padding: 10px 8px; text-align: left; }
+  .nba-item.active { background: var(--accent-soft); }
+  .nba-item strong { font-size: 12px; }
+  .nba-item small { display: block; color: var(--muted); margin-top: 2px; font-size: 10px; }
+  .nba-focus { padding: 34px; display: grid; align-content: center; }
+  .focus-person { max-width: 760px; margin: 0 auto; width: 100%; }
+  .focus-name-row { display: flex; align-items: center; gap: 10px; }
+  .focus-name-row h2 { margin: 0; font-size: 38px; letter-spacing: -.04em; }
+  .focus-sub { color: var(--muted); margin: 8px 0 18px; font-size: 13px; }
+  .big-call { width: 100%; min-height: 58px; border-radius: 14px; border: 0; background: #101828; color: white; font-weight: 850; font-size: 16px; margin: 16px 0 10px; }
 
-  .main { max-width: 1440px; margin: 0 auto; padding: 22px; }
-  .view { animation: fadeUp .22s ease-out; }
-  @keyframes fadeUp { from { opacity: .6; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+   
+  .dialer { min-height: 650px; display: grid; grid-template-rows: 58px 1fr; }
+  .dialer-body { display: grid; grid-template-columns: 1fr 280px; }
+  .dialer-main { padding: 28px; display: grid; grid-template-columns: minmax(0,1fr) 260px; gap: 20px; }
+  .dialer-client { display: grid; align-content: center; }
+  .dialer-client h2 { font-size: 42px; margin: 0; letter-spacing: -.05em; }
+  .dial-pad { background: #f8fafc; border-left: 1px solid var(--line); padding: 18px; }
+  .dial-circle { width: 150px; height: 150px; margin: 26px auto 18px; border-radius: 50%; display: grid; place-items: center; background: #101828; color: white; font-size: 42px; }
+  .next-stack { border-left: 1px solid var(--line); background: #fcfcfd; padding: 16px; }
+  .next-stack h4 { margin: 0 0 10px; }
+  .next-card { padding: 10px; border: 1px solid var(--line); background: white; border-radius: 11px; margin-bottom: 7px; }
+  .next-card strong { display: block; font-size: 12px; }
+  .next-card small { color: var(--muted); font-size: 10px; }
 
-  .loading-card, .error-card {
-    max-width: 720px; margin: 60px auto; padding: 32px;
-    background: white; border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow);
-  }
-  .loading-line { height: 16px; width: 62%; background: #edf0f4; border-radius: 999px; margin: 13px 0; animation: pulse 1.3s infinite; }
-  .loading-line.wide { width: 85%; height: 26px; }
-  .loading-line.short { width: 38%; }
-  @keyframes pulse { 50% { opacity: .5; } }
-  .error-card strong { font-size: 20px; }
-  .error-card p { color: var(--muted); }
+   
+  .inbox { display: grid; grid-template-columns: 340px minmax(0,1fr); min-height: 650px; }
+  .inbox-list { border-right: 1px solid var(--line); background: #fbfcfe; }
+  .inbox-toolbar { height: 58px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+  .mail-row { display: grid; grid-template-columns: 34px 1fr auto; gap: 9px; align-items: center; padding: 13px 14px; border-bottom: 1px solid #edf0f4; }
+  .mail-row.active { background: #f1f0ff; }
+  .mail-row strong { font-size: 13px; }
+  .mail-row small { display: block; color: var(--muted); font-size: 10px; margin-top: 3px; }
+  .inbox-detail { padding: 28px; }
+  .inbox-detail h2 { font-size: 34px; margin: 0 0 5px; }
 
-  .summary-strip {
-    min-height: 84px;
-    display: grid;
-    grid-template-columns: 120px 120px 120px minmax(220px, 1fr);
-    align-items: center;
-    gap: 14px;
-    padding: 14px 18px;
-    margin-bottom: 18px;
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-  }
-  .summary-item { display: grid; gap: 3px; padding-right: 12px; border-right: 1px solid var(--line); }
-  .summary-item strong { font-size: 24px; letter-spacing: -.04em; }
-  .summary-label { color: var(--muted); font-size: 12px; font-weight: 650; }
-  .summary-item.emphasis strong { color: var(--accent); }
-  .progress-wrap { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding-left: 6px; }
-  .progress-track { height: 8px; background: #edf0f4; border-radius: 999px; overflow: hidden; }
-  .progress-bar { height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg, #635bff, #7c75ff); transition: width .3s ease; }
-  .progress-wrap span { color: var(--muted); font-size: 12px; white-space: nowrap; }
+   
+  .kanban-wrap { padding: 16px; background: #f7f8fa; min-height: 650px; overflow-x: auto; }
+  .kanban { display: grid; grid-template-columns: repeat(4, minmax(235px,1fr)); gap: 12px; min-width: 980px; }
+  .kanban-col { background: #eef1f5; border-radius: 14px; padding: 10px; min-height: 560px; }
+  .kanban-head { display: flex; align-items: center; justify-content: space-between; padding: 4px 4px 10px; }
+  .kanban-head strong { font-size: 12px; }
+  .kanban-count { background: white; color: #667085; border-radius: 999px; min-width: 24px; height: 24px; display: grid; place-items: center; font-size: 10px; }
+  .kanban-card { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-bottom: 8px; box-shadow: 0 3px 10px rgba(16,24,40,.04); }
+  .kanban-card strong { font-size: 12px; }
+  .kanban-card p { margin: 6px 0; color: var(--muted); font-size: 10px; }
 
-  .workspace {
-    display: grid;
-    grid-template-columns: 350px minmax(0, 1fr);
-    gap: 18px;
-    align-items: start;
-  }
-  .queue-panel, .focus-panel {
-    background: white; border: 1px solid var(--line); border-radius: 20px;
-    min-height: 620px;
-  }
-  .queue-panel { overflow: hidden; }
-  .queue-heading {
-    padding: 20px 18px 14px;
-    display: flex; align-items: flex-end; justify-content: space-between;
-    border-bottom: 1px solid var(--line);
-  }
-  .section-kicker { color: #7c8799; font-size: 10px; font-weight: 800; letter-spacing: .13em; }
-  .queue-heading h2 { margin: 4px 0 0; font-size: 18px; letter-spacing: -.025em; }
-  .quiet { color: #94a3b8; font-size: 12px; }
-  .queue-list { padding: 8px; display: grid; gap: 5px; max-height: 682px; overflow-y: auto; }
-  .queue-item {
-    width: 100%; border: 1px solid transparent; background: transparent;
-    border-radius: 14px; padding: 12px;
-    display: grid; grid-template-columns: 30px minmax(0,1fr) auto; gap: 10px; align-items: center;
-    text-align: left; color: inherit;
-  }
-  .queue-item:hover { background: #f8f9fb; }
-  .queue-item.is-active { background: #f4f3ff; border-color: #dddafe; }
-  .queue-rank { color: #8b95a5; font-size: 12px; font-weight: 800; }
-  .queue-person { min-width: 0; }
-  .queue-name { font-size: 14px; font-weight: 720; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .queue-reason { margin-top: 3px; color: var(--muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .queue-score { min-width: 44px; height: 30px; padding: 0 9px; border-radius: 999px; display: grid; place-items: center; background: #eef8f3; color: #157352; font-size: 12px; font-weight: 800; }
+   
+  .focus-mode { min-height: 650px; display: grid; place-items: center; padding: 36px; background: radial-gradient(circle at 50% 15%, #f1f0ff, white 38%); }
+  .focus-only { width: min(760px, 100%); text-align: center; }
+  .focus-only .rank { margin: 0 auto 12px; }
+  .focus-only h2 { font-size: 52px; margin: 0; letter-spacing: -.055em; }
+  .focus-only .score { margin: 10px auto 18px; }
+  .focus-only .reason-box { text-align: left; }
+  .focus-only .outcome-row { margin-top: 9px; }
 
-  .focus-panel { padding: 24px; }
-  .client-card { max-width: 920px; margin: 0 auto; }
-  .client-header { display: flex; gap: 14px; align-items: flex-start; }
-  .rank-chip {
-    flex: 0 0 auto; min-width: 46px; height: 46px; padding: 0 10px; border-radius: 14px;
-    display: grid; place-items: center; background: var(--navy); color: white; font-weight: 800;
+   
+  .command { min-height: 650px; background: #f8fafc; padding: 14px; display: grid; grid-template-columns: 240px minmax(0,1fr) 260px; gap: 12px; }
+  .cmd-panel { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+  .cmd-panel h3 { margin: 0 0 10px; font-size: 13px; }
+  .cmd-kpis { display: grid; grid-template-columns: repeat(2,1fr); gap: 7px; }
+  .cmd-kpi { padding: 10px; background: #f8fafc; border-radius: 10px; }
+  .cmd-kpi span { color: #98a2b3; font-size: 9px; }
+  .cmd-kpi strong { display: block; margin-top: 3px; font-size: 20px; }
+  .cmd-focus h2 { font-size: 36px; margin: 8px 0 4px; }
+  .mini-list-row { padding: 9px 0; border-bottom: 1px solid #eef1f4; }
+  .mini-list-row strong { font-size: 11px; }
+  .mini-list-row small { display: block; color: var(--muted); font-size: 9px; }
+
+   
+  .timeline { min-height: 650px; display: grid; grid-template-columns: 300px minmax(0,1fr); }
+  .timeline-profile { border-right: 1px solid var(--line); padding: 22px; background: #fbfcfe; }
+  .timeline-profile h2 { margin: 4px 0; font-size: 30px; }
+  .timeline-stream { padding: 28px; }
+  .timeline-line { position: relative; padding-left: 30px; }
+  .timeline-line::before { content: ""; position: absolute; left: 9px; top: 0; bottom: 0; width: 2px; background: #e4e7ec; }
+  .timeline-event { position: relative; padding: 0 0 24px 8px; }
+  .timeline-event::before { content: ""; position: absolute; left: -28px; top: 2px; width: 12px; height: 12px; border-radius: 50%; background: white; border: 3px solid var(--accent); }
+  .timeline-event time { color: #98a2b3; font-size: 10px; }
+  .timeline-event strong { display: block; margin-top: 3px; font-size: 13px; }
+  .timeline-event p { margin: 4px 0 0; color: var(--muted); font-size: 11px; }
+
+   
+  .exception { min-height: 650px; background: #f8fafc; padding: 18px; }
+  .exception-summary { display: grid; grid-template-columns: repeat(4,1fr); gap: 9px; margin-bottom: 14px; }
+  .exception-summary div { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+  .exception-summary span { display: block; color: #98a2b3; font-size: 9px; font-weight: 800; }
+  .exception-summary strong { display: block; margin-top: 4px; }
+  .exception-table { background: white; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .exception-row { display: grid; grid-template-columns: 1.2fr .9fr .8fr 1.4fr auto; gap: 12px; align-items: center; padding: 13px 14px; border-bottom: 1px solid #edf0f4; }
+  .exception-row.head { background: #f8fafc; color: #98a2b3; font-size: 9px; font-weight: 850; letter-spacing: .05em; }
+  .exception-row strong { font-size: 12px; }
+  .tag { display: inline-flex; align-items: center; padding: 5px 7px; border-radius: 999px; background: var(--amber-soft); color: var(--amber); font-size: 9px; font-weight: 800; }
+
+   
+  .calendar { min-height: 650px; display: grid; grid-template-columns: 1fr 300px; }
+  .calendar-main { padding: 18px; }
+  .calendar-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .calendar-grid { display: grid; grid-template-columns: 64px 1fr; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .time-cell { padding: 14px 8px; color: #98a2b3; font-size: 10px; border-bottom: 1px solid #eef1f4; background: #fbfcfe; }
+  .slot-cell { min-height: 64px; padding: 8px; border-left: 1px solid #eef1f4; border-bottom: 1px solid #eef1f4; }
+  .calendar-event { padding: 9px 10px; border-radius: 10px; background: var(--accent-soft); border: 1px solid #dcd9ff; font-size: 11px; font-weight: 750; }
+  .calendar-side { border-left: 1px solid var(--line); padding: 18px; background: #fbfcfe; }
+  .calendar-side h3 { margin: 0 0 10px; }
+
+   
+  .pipeline { min-height: 650px; padding: 16px; background: #f7f8fa; overflow-x: auto; }
+  .pipeline-board { display: grid; grid-template-columns: repeat(5, minmax(210px,1fr)); gap: 10px; min-width: 1080px; }
+  .pipeline-stage { background: #eef1f5; border-radius: 13px; padding: 9px; min-height: 570px; }
+  .pipeline-stage h4 { margin: 3px 4px 10px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: #667085; }
+  .pipeline-card { background: white; border: 1px solid var(--line); border-radius: 11px; padding: 11px; margin-bottom: 7px; }
+  .pipeline-card strong { font-size: 12px; }
+  .pipeline-card small { display: block; color: var(--muted); margin-top: 4px; font-size: 9px; }
+
+  @media (max-width: 1100px) {
+    .lab-body { grid-template-columns: 220px minmax(0,1fr); }
+    .model-label { font-size: 12px; }
+    .command { grid-template-columns: 210px minmax(0,1fr); }
+    .command .cmd-panel:last-child { display: none; }
+    .evaluation-strip { grid-template-columns: repeat(2,1fr); }
   }
-  .client-title-group { min-width: 0; flex: 1; }
-  .client-title-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .client-title-row h1 { margin: 0; font-size: clamp(28px, 3.2vw, 40px); letter-spacing: -.045em; line-height: 1.05; }
-  .readiness-pill { padding: 7px 10px; border-radius: 999px; background: var(--green-soft); color: var(--green); font-size: 13px; font-weight: 820; }
-  .client-subline { margin-top: 8px; color: var(--muted); font-size: 13px; }
-  #client-action { color: #4f46e5; font-weight: 800; }
-  .separator { margin: 0 5px; color: #c2c8d1; }
-
-  .why-card {
-    margin-top: 22px; padding: 17px 18px;
-    display: grid; grid-template-columns: 34px 1fr; gap: 12px;
-    background: linear-gradient(135deg, #f4f3ff 0%, #fafaff 100%);
-    border: 1px solid #e4e1ff; border-radius: 16px;
-  }
-  .why-icon { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: white; color: var(--accent); box-shadow: 0 2px 8px rgba(99,91,255,.12); }
-  .why-label, .growth-label { font-size: 10px; font-weight: 850; letter-spacing: .13em; color: #6861cf; }
-  .why-card p { margin: 4px 0 0; font-size: 15px; line-height: 1.5; font-weight: 600; color: #273044; }
-
-  .metric-grid { margin-top: 16px; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
-  .metric { min-height: 112px; padding: 15px; border: 1px solid var(--line); border-radius: 15px; display: flex; flex-direction: column; justify-content: space-between; }
-  .metric > span { color: var(--muted); font-size: 11px; font-weight: 650; }
-  .metric strong { font-size: 22px; letter-spacing: -.035em; }
-  .metric strong small { font-size: 11px; color: var(--muted); font-weight: 600; }
-  .metric > small { font-size: 10px; color: var(--green); font-weight: 700; }
-  .primary-metric { background: #fbfcfd; }
-
-  .growth-row {
-    margin-top: 10px; padding: 14px 15px;
-    border: 1px dashed #d8dce4; border-radius: 14px;
-    display: flex; align-items: center; justify-content: space-between; gap: 14px;
-  }
-  .growth-row strong { display: block; margin-top: 4px; font-size: 13px; }
-  .growth-label { color: #8a6b21; }
-  .growth-badge { flex: 0 0 auto; padding: 6px 9px; border-radius: 999px; background: var(--amber-soft); color: var(--amber); font-size: 11px; font-weight: 800; }
-
-  .call-row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px; margin-top: 18px; }
-  .call-button, .primary-button {
-    min-height: 50px; border: 0; border-radius: 14px; background: var(--navy); color: white;
-    display: flex; align-items: center; justify-content: center; text-decoration: none; font-weight: 780; letter-spacing: -.01em;
-  }
-  .call-button span { margin-left: 7px; color: #c9d1de; font-size: 13px; font-weight: 600; }
-  .secondary-button {
-    min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 12px;
-    background: white; color: #344054; font-weight: 700;
-  }
-  .secondary-button:hover { background: #f8fafc; }
-
-  .outcome-section { margin-top: 22px; padding-top: 19px; border-top: 1px solid var(--line); }
-  .outcome-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 10px; }
-  .outcome-heading span { font-size: 14px; font-weight: 800; }
-  .outcome-heading small { color: var(--muted); font-size: 11px; }
-  .outcome-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
-  .outcome-button {
-    min-height: 52px; padding: 0 12px; border: 1px solid var(--line); border-radius: 13px; background: white; color: #374151;
-    font-weight: 720; display: flex; align-items: center; justify-content: center; gap: 8px;
-  }
-  .outcome-button span { color: #8a94a5; font-size: 16px; }
-  .outcome-button:hover { border-color: #cbd2dc; background: #fafbfc; }
-  .outcome-button.positive { background: var(--green-soft); border-color: #cceede; color: #126c4b; }
-  .outcome-button.positive span { color: #126c4b; }
-
-  .empty-state { min-height: 540px; display: grid; place-items: center; align-content: center; text-align: center; padding: 30px; }
-  .success-orb { width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; background: var(--green-soft); color: var(--green); font-size: 24px; font-weight: 900; }
-  .empty-state h2 { margin: 16px 0 6px; font-size: 24px; }
-  .empty-state p { margin: 0 0 18px; color: var(--muted); }
-
-  .done-header { padding: 14px 4px 18px; }
-  .done-header h1 { margin: 5px 0 4px; font-size: 34px; letter-spacing: -.04em; }
-  .done-header p { margin: 0; color: var(--muted); }
-  .done-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
-  .done-stats > div { background: white; border: 1px solid var(--line); border-radius: 16px; padding: 17px; display: grid; gap: 7px; }
-  .done-stats span { color: var(--muted); font-size: 11px; font-weight: 700; }
-  .done-stats strong { font-size: 26px; letter-spacing: -.04em; }
-  .done-list { background: white; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
-  .done-item { display: grid; grid-template-columns: 46px 1fr auto; gap: 12px; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--line); }
-  .done-item:last-child { border-bottom: 0; }
-  .done-rank { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--soft); color: #667085; font-size: 11px; font-weight: 800; }
-  .done-main strong { display: block; font-size: 13px; }
-  .done-main span { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; }
-  .result-chip { padding: 6px 9px; border-radius: 999px; background: var(--soft); color: #475569; font-size: 11px; font-weight: 800; }
-  .result-chip.booked { background: var(--green-soft); color: var(--green); }
-
-  .sheet-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,.32); backdrop-filter: blur(2px); z-index: 50; }
-  .action-sheet {
-    position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 51;
-    width: min(520px, calc(100vw - 24px)); max-height: min(700px, calc(100vh - 34px)); overflow-y: auto;
-    background: white; border: 1px solid var(--line); border-radius: 22px; box-shadow: 0 24px 70px rgba(15,23,42,.22); padding: 10px 18px 18px;
-  }
-  .sheet-handle { width: 44px; height: 4px; border-radius: 999px; background: #d9dee7; margin: 1px auto 14px; }
-  .sheet-title { margin: 0; font-size: 22px; letter-spacing: -.035em; }
-  .sheet-copy { margin: 6px 0 16px; color: var(--muted); font-size: 13px; line-height: 1.45; }
-  .sheet-options { display: grid; gap: 8px; }
-  .sheet-option { min-height: 48px; border: 1px solid var(--line); background: white; border-radius: 12px; padding: 0 14px; text-align: left; font-weight: 700; color: #344054; }
-  .sheet-option:hover { background: #fafbfc; }
-  .field { display: grid; gap: 6px; margin-top: 12px; }
-  .field label { color: #475569; font-size: 11px; font-weight: 800; }
-  .field input, .field textarea {
-    width: 100%; border: 1px solid #d9dee7; border-radius: 12px; padding: 12px 13px; outline: none; background: white;
-  }
-  .field input:focus, .field textarea:focus { border-color: #928cff; box-shadow: 0 0 0 3px rgba(99,91,255,.10); }
-  .field textarea { min-height: 84px; resize: vertical; }
-  .sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
-  .text-preview { padding: 13px; border-radius: 12px; background: #f6f7f9; color: #344054; font-size: 13px; line-height: 1.5; }
-
-  .toast {
-    position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 70;
-    background: #111827; color: white; border-radius: 999px; padding: 10px 14px; font-size: 12px; font-weight: 700;
-    box-shadow: 0 8px 28px rgba(15,23,42,.25);
-  }
-
-  @media (max-width: 900px) {
-    .summary-strip { grid-template-columns: repeat(3, 1fr); }
-    .progress-wrap { grid-column: 1 / -1; padding: 4px 0 0; }
-    .workspace { grid-template-columns: 1fr; }
-    .queue-panel { min-height: 0; }
-    .queue-list { display: flex; overflow-x: auto; overflow-y: hidden; max-height: none; padding: 9px; }
-    .queue-item { min-width: 245px; }
-    .focus-panel { min-height: 0; }
-  }
-
-  @media (max-width: 640px) {
-    .topbar { height: 64px; padding: 0 14px; }
-    .brand-subtitle { display: none; }
-    .tabs { height: 50px; padding: 0 14px; }
-    .tab { height: 50px; }
-    .main { padding: 12px; }
-    .summary-strip { border-radius: 15px; padding: 12px; gap: 8px; grid-template-columns: repeat(3,1fr); }
-    .summary-item { padding-right: 6px; }
-    .summary-item strong { font-size: 20px; }
-    .workspace { gap: 12px; }
-    .queue-panel, .focus-panel { border-radius: 16px; }
-    .queue-heading { padding: 15px 14px 11px; }
-    .queue-heading h2 { font-size: 16px; }
-    .focus-panel { padding: 17px 14px; }
-    .client-header { gap: 10px; }
-    .rank-chip { min-width: 40px; height: 40px; border-radius: 12px; }
-    .client-title-row h1 { font-size: 27px; }
-    .readiness-pill { padding: 6px 8px; font-size: 12px; }
-    .metric-grid { grid-template-columns: repeat(2, 1fr); }
-    .metric { min-height: 98px; }
-    .outcome-grid { grid-template-columns: repeat(2,1fr); }
-    .call-row { grid-template-columns: 1fr; }
-    .done-stats { grid-template-columns: repeat(2,1fr); }
-    .done-item { grid-template-columns: 38px 1fr auto; padding: 12px; }
-    .demo-badge { display: none; }
-    .outcome-heading small { display: none; }
+  @media (max-width: 760px) {
+    .lab-topbar { padding: 0 12px; }
+    .preview-badge { display: none; }
+    .lab-body { display: block; }
+    .model-nav { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); display: flex; overflow-x: auto; padding: 9px; }
+    .model-nav-head { display: none; }
+    #model-nav-list { display: flex; gap: 6px; }
+    .model-button { min-width: 160px; margin: 0; }
+    .lab-main { padding: 16px 10px; }
+    .lab-intro { align-items: start; }
+    .fit-card { display: none; }
+    .prototype-stage { min-height: 620px; }
+    .nba, .inbox, .timeline, .calendar { grid-template-columns: 1fr; }
+    .nba-queue, .inbox-list, .timeline-profile, .calendar-side { display: none; }
+    .dialer-body, .dialer-main { grid-template-columns: 1fr; }
+    .next-stack, .dial-pad { display: none; }
+    .metric-row { grid-template-columns: repeat(2,1fr); }
+    .outcome-row { grid-template-columns: repeat(2,1fr); }
+    .command { grid-template-columns: 1fr; }
+    .command .cmd-panel:first-child, .command .cmd-panel:last-child { display: none; }
+    .exception-summary { grid-template-columns: repeat(2,1fr); }
+    .exception-row { grid-template-columns: 1fr auto; }
+    .exception-row > *:nth-child(2), .exception-row > *:nth-child(3), .exception-row > *:nth-child(4) { display: none; }
+    .evaluation-strip { grid-template-columns: 1fr 1fr; }
+    .focus-only h2 { font-size: 40px; }
   }
 </style>
   </head>
   <body>
-    <div class="app-shell">
-      <header class="topbar">
-        <div class="brand-block">
-          <div class="brand-mark" aria-hidden="true">L</div>
+    <div class="lab-shell">
+      <header class="lab-topbar">
+        <div class="lab-brand">
+          <div class="lab-mark">L</div>
           <div>
-            <div class="brand-name">Living CRM</div>
-            <div class="brand-subtitle">Botox concierge · Today only</div>
+            <div class="lab-brand-name">Living CRM</div>
+            <div class="lab-brand-sub">SDR Design Lab · evaluation only</div>
           </div>
         </div>
-        <div class="topbar-actions">
-          <span class="demo-badge">DEMO DATA</span>
-          <button class="icon-button" id="refresh-btn" type="button" aria-label="Refresh">↻</button>
+        <div class="lab-top-actions">
+          <span class="preview-badge">PREVIEW · NO DATA WRITES</span>
+          <a class="back-link" href="?">Back to current app</a>
         </div>
       </header>
 
-      <nav class="tabs" aria-label="CRM views">
-        <button class="tab is-active" data-view="today" type="button">
-          Today <span class="tab-count" id="today-tab-count">7</span>
-        </button>
-        <button class="tab" data-view="done" type="button">
-          Done <span class="tab-count" id="done-tab-count">0</span>
-        </button>
-      </nav>
-
-      <main class="main">
-        <section id="loading-view" class="loading-card" hidden="">
-          <div class="loading-line wide"></div>
-          <div class="loading-line"></div>
-          <div class="loading-line short"></div>
-        </section>
-
-        <section id="today-view" class="view">
-          <div class="summary-strip" id="summary-strip">
-            <div class="summary-item">
-              <span class="summary-label">Assigned</span>
-              <strong id="stat-assigned">7</strong>
-            </div>
-            <div class="summary-item emphasis">
-              <span class="summary-label">Remaining</span>
-              <strong id="stat-remaining">7</strong>
-            </div>
-            <div class="summary-item">
-              <span class="summary-label">Booked</span>
-              <strong id="stat-booked">0</strong>
-            </div>
-            <div class="progress-wrap" aria-label="Today's completion">
-              <div class="progress-track"><div class="progress-bar" id="progress-bar" style="width: 0%;"></div></div>
-              <span id="progress-label">0% complete</span>
-            </div>
+      <div class="lab-body">
+        <aside class="model-nav">
+          <div class="model-nav-head">
+            <span>10 INTERACTION MODELS</span>
+            <strong>Choose a design</strong>
           </div>
+          <div id="model-nav-list">
+      <button class="model-button is-active" data-model="1" type="button">
+        <span class="model-index">01</span>
+        <span class="model-label">Next-Best-Action Queue</span>
+      </button>
+    
+      <button class="model-button" data-model="2" type="button">
+        <span class="model-index">02</span>
+        <span class="model-label">Power-Dialer Workspace</span>
+      </button>
+    
+      <button class="model-button" data-model="3" type="button">
+        <span class="model-index">03</span>
+        <span class="model-label">Inbox / Task Queue</span>
+      </button>
+    
+      <button class="model-button" data-model="4" type="button">
+        <span class="model-index">04</span>
+        <span class="model-label">Kanban Board</span>
+      </button>
+    
+      <button class="model-button" data-model="5" type="button">
+        <span class="model-index">05</span>
+        <span class="model-label">Focus Mode</span>
+      </button>
+    
+      <button class="model-button" data-model="6" type="button">
+        <span class="model-index">06</span>
+        <span class="model-label">Command Center</span>
+      </button>
+    
+      <button class="model-button" data-model="7" type="button">
+        <span class="model-index">07</span>
+        <span class="model-label">Conversation Timeline CRM</span>
+      </button>
+    
+      <button class="model-button" data-model="8" type="button">
+        <span class="model-index">08</span>
+        <span class="model-label">Exception Queue</span>
+      </button>
+    
+      <button class="model-button" data-model="9" type="button">
+        <span class="model-index">09</span>
+        <span class="model-label">Calendar / Time-Block View</span>
+      </button>
+    
+      <button class="model-button" data-model="10" type="button">
+        <span class="model-index">10</span>
+        <span class="model-label">Classic CRM Pipeline</span>
+      </button>
+    </div>
+        </aside>
 
-          <div class="workspace">
-            <aside class="queue-panel">
-              <div class="queue-heading">
-                <div>
-                  <span class="section-kicker">TODAY'S WORKLIST</span>
-                  <h2>Next best calls</h2>
-                </div>
-                <span class="quiet" id="queue-count-label">7 remaining</span>
-              </div>
-              <div id="queue-list" class="queue-list"><button type="button" class="queue-item is-active">
-        <span class="queue-rank">#1</span>
-        <span class="queue-person">
-          <span class="queue-name">Ava Carter</span>
-          <span class="queue-reason">Day 107 · usual 108d</span>
-        </span>
-        <span class="queue-score">87%</span>
-      </button><button type="button" class="queue-item">
-        <span class="queue-rank">#2</span>
-        <span class="queue-person">
-          <span class="queue-name">Maya Brooks</span>
-          <span class="queue-reason">Day 96 · usual 101d</span>
-        </span>
-        <span class="queue-score">82%</span>
-      </button><button type="button" class="queue-item">
-        <span class="queue-rank">#3</span>
-        <span class="queue-person">
-          <span class="queue-name">Sofia Bennett</span>
-          <span class="queue-reason">Day 121 · usual 116d</span>
-        </span>
-        <span class="queue-score">78%</span>
-      </button><button type="button" class="queue-item">
-        <span class="queue-rank">#4</span>
-        <span class="queue-person">
-          <span class="queue-name">Nora Ellis</span>
-          <span class="queue-reason">Day 103 · usual 106d</span>
-        </span>
-        <span class="queue-score">74%</span>
-      </button><button type="button" class="queue-item">
-        <span class="queue-rank">#5</span>
-        <span class="queue-person">
-          <span class="queue-name">Emma Stonefield</span>
-          <span class="queue-reason">Day 134 · usual 134d</span>
-        </span>
-        <span class="queue-score">69%</span>
-      </button><button type="button" class="queue-item">
-        <span class="queue-rank">#6</span>
-        <span class="queue-person">
-          <span class="queue-name">Lena Foster</span>
-          <span class="queue-reason">Day 94 · usual 98d</span>
-        </span>
-        <span class="queue-score">65%</span>
-      </button><button type="button" class="queue-item">
-        <span class="queue-rank">#7</span>
-        <span class="queue-person">
-          <span class="queue-name">Olivia Hart</span>
-          <span class="queue-reason">Day 151 · usual 126d</span>
-        </span>
-        <span class="queue-score">62%</span>
-      </button></div>
-            </aside>
-
-            <section class="focus-panel" id="focus-panel">
-              <div id="empty-state" class="empty-state" hidden="">
-                <div class="success-orb">✓</div>
-                <h2>Today's priority work is done.</h2>
-                <p>Every client in today's active queue has been handled.</p>
-                <button class="secondary-button" type="button" data-switch="done">Review completed work</button>
-              </div>
-
-              <article id="client-card" class="client-card">
-                <div class="client-header">
-                  <div class="rank-chip" id="client-rank">#1</div>
-                  <div class="client-title-group">
-                    <div class="client-title-row">
-                      <h1 id="client-name">Ava Carter</h1>
-                      <span class="readiness-pill" id="client-readiness">87% likely</span>
-                    </div>
-                    <div class="client-subline">
-                      <span id="client-action">CALL TODAY</span>
-                      <span class="separator">·</span>
-                      <span id="client-provider">Dr. Rivera</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="why-card">
-                  <div class="why-icon">✦</div>
-                  <div>
-                    <div class="why-label">WHY TODAY</div>
-                    <p id="client-reason">Usually returns in 104–112 days; today is day 107 and her pattern is very consistent.</p>
-                  </div>
-                </div>
-
-                <div class="metric-grid">
-                  <div class="metric primary-metric">
-                    <span>Days since treatment</span>
-                    <strong id="client-days">107</strong>
-                    <small id="cadence-delta">1 days before typical</small>
-                  </div>
-                  <div class="metric">
-                    <span>Typical cadence</span>
-                    <strong><span id="client-cadence">108</span><small> days</small></strong>
-                  </div>
-                  <div class="metric">
-                    <span>Last treatment</span>
-                    <strong id="client-last-tx">May 10</strong>
-                  </div>
-                  <div class="metric">
-                    <span>Last units</span>
-                    <strong id="client-units">42 units</strong>
-                  </div>
-                </div>
-
-                <div class="growth-row">
-                  <div>
-                    <span class="growth-label">SEPARATE GROWTH ACTION</span>
-                    <strong id="client-growth">Maintain regular cadence</strong>
-                  </div>
-                  <span class="growth-badge">Nurture</span>
-                </div>
-
-                <div class="call-row">
-                  <a class="call-button" id="call-button" href="tel:7575550101" aria-label="Call Ava Carter">Call <span id="client-phone">757-555-0101</span></a>
-                  <button class="secondary-button" id="copy-phone" type="button">Copy phone</button>
-                </div>
-
-                <div class="outcome-section">
-                  <div class="outcome-heading">
-                    <span>What happened?</span>
-                    <small>One tap, then move on.</small>
-                  </div>
-                  <div class="outcome-grid">
-                    <button class="outcome-button" data-outcome="No Answer" type="button"><span>○</span>No answer</button>
-                    <button class="outcome-button positive" data-outcome="Booked" type="button"><span>✓</span>Booked</button>
-                    <button class="outcome-button" data-outcome="Not Ready" type="button"><span>◷</span>Not ready</button>
-                    <button class="outcome-button" data-outcome="Wants Later" type="button"><span>→</span>Call later</button>
-                    <button class="outcome-button" data-outcome="Traveling" type="button"><span>✈</span>Away</button>
-                    <button class="outcome-button" data-outcome="More" type="button"><span>•••</span>Other</button>
-                  </div>
-                </div>
-              </article>
-            </section>
-          </div>
-        </section>
-
-        <section id="done-view" class="view" hidden="">
-          <div class="done-header">
+        <main class="lab-main">
+          <section class="lab-intro">
             <div>
-              <span class="section-kicker">TODAY'S EXECUTION</span>
-              <h1>Done today</h1>
-              <p>Lightweight execution metrics—not another analytics dashboard.</p>
+              <span class="eyebrow" id="model-number">MODEL 01</span>
+              <h1 id="model-title">Next-Best-Action Queue</h1>
+              <p id="model-description">One client at a time. The system decides who is next and removes choice from execution.</p>
             </div>
-          </div>
-          <div class="done-stats">
-            <div><span>Attempted</span><strong id="done-attempted">0</strong></div>
-            <div><span>Answered</span><strong id="done-answered">0</strong></div>
-            <div><span>Booked</span><strong id="done-booked">0</strong></div>
-            <div><span>Booking rate</span><strong id="done-rate">0%</strong></div>
-          </div>
-          <div id="done-list" class="done-list"><div class="empty-state" style="min-height:260px"><div><strong>No calls completed yet.</strong><p>Your completed work will appear here automatically.</p></div></div></div>
-        </section>
+            <div class="fit-card">
+              <span>FIT FOR LIVING CRM</span>
+              <strong id="model-fit">Best fit</strong>
+            </div>
+          </section>
 
-        <section id="error-view" class="error-card" hidden="">
-          <strong>Living CRM could not load.</strong>
-          <p id="error-message">Please refresh and try again.</p>
-          <button class="secondary-button" type="button" id="error-retry">Try again</button>
-        </section>
-      </main>
+          <section id="prototype-root" class="prototype-stage"><div class="nba">
+      <aside class="nba-queue"><h3>Today · 7 remaining</h3><button class="nba-item active" data-select-action="20260825-D001"><span>#1</span><span><strong>Ava Carter</strong><small>Day 107 · usual 108d</small></span><span class="score">87%</span></button><button class="nba-item" data-select-action="20260825-D002"><span>#2</span><span><strong>Maya Brooks</strong><small>Day 96 · usual 101d</small></span><span class="score">82%</span></button><button class="nba-item" data-select-action="20260825-D003"><span>#3</span><span><strong>Sofia Bennett</strong><small>Day 121 · usual 116d</small></span><span class="score">78%</span></button><button class="nba-item" data-select-action="20260825-D004"><span>#4</span><span><strong>Nora Ellis</strong><small>Day 103 · usual 106d</small></span><span class="score">74%</span></button><button class="nba-item" data-select-action="20260825-D005"><span>#5</span><span><strong>Emma Stonefield</strong><small>Day 134 · usual 134d</small></span><span class="score">69%</span></button><button class="nba-item" data-select-action="20260825-D006"><span>#6</span><span><strong>Lena Foster</strong><small>Day 94 · usual 98d</small></span><span class="score">65%</span></button><button class="nba-item" data-select-action="20260825-D007"><span>#7</span><span><strong>Olivia Hart</strong><small>Day 151 · usual 126d</small></span><span class="score">62%</span></button></aside>
+      <section class="nba-focus"><div class="focus-person">
+      <div class="focus-name-row"><span class="rank">#1</span><h2>Ava Carter</h2><span class="score">87%</span></div>
+      <div class="focus-sub">CALL NOW · Dr. Rivera · Day 107 of usual 108 days</div>
+      <div class="reason-box"><strong>Why now</strong><br>Usually returns in 104–112 days; today is day 107 and her pattern is very consistent.</div>
+      <div class="metric-row" style="margin-top:10px">
+        <div class="metric-tile"><span>DAYS SINCE TX</span><strong>107</strong></div>
+        <div class="metric-tile"><span>TYPICAL CADENCE</span><strong>108d</strong></div>
+        <div class="metric-tile"><span>LAST UNITS</span><strong>42</strong></div>
+        <div class="metric-tile"><span>GROWTH ACTION</span><strong style="font-size:12px">Maintain regular cadence</strong></div>
+      </div><button class="big-call">☎ Call 757-555-0101</button><div class="outcome-row">
+      <button class="outcome-mini" data-sim-next="">No answer</button>
+      <button class="outcome-mini book" data-sim-next="">Booked</button>
+      <button class="outcome-mini" data-sim-next="">Not ready</button>
+      <button class="outcome-mini" data-sim-next="">Call later</button>
+      <button class="outcome-mini" data-sim-next="">Away</button>
+      <button class="outcome-mini" data-sim-next="">Other</button>
+    </div></div></section>
+    </div></section>
+
+          <section class="evaluation-strip">
+            <div><span>FASTEST TO OPERATE</span><strong id="eval-speed">Excellent</strong></div>
+            <div><span>LOWEST COGNITIVE LOAD</span><strong id="eval-cognitive">Excellent</strong></div>
+            <div><span>MANAGER VISIBILITY</span><strong id="eval-manager">Medium</strong></div>
+            <div><span>BEST USE</span><strong id="eval-use">Primary SDR workspace</strong></div>
+          </section>
+        </main>
+      </div>
     </div>
 
-    <div class="sheet-backdrop" id="sheet-backdrop" hidden=""></div>
-    <section class="action-sheet" id="action-sheet" hidden="" aria-modal="true" role="dialog">
-      <div class="sheet-handle"></div>
-      <div id="sheet-content"></div>
-    </section>
-
-    <div class="toast" id="toast" hidden=""></div>
-
     <script>
-  const CRM = {
+  const LAB = {
+    model: 1,
     data: null,
-    selectedActionId: null,
-    activeView: 'today',
-    saving: false
+    selectedActionId: null
   };
 
-  function loadApp_() {
-    showLoading_(true);
+  const MODELS = [
+    { id: 1, title: 'Next-Best-Action Queue', desc: 'One client at a time. The system decides who is next and removes choice from execution.', fit: 'Best fit', speed: 'Excellent', cognitive: 'Excellent', manager: 'Medium', use: 'Primary SDR workspace' },
+    { id: 2, title: 'Power-Dialer Workspace', desc: 'A call-first cockpit with the active client dominant and the next few calls visible.', fit: 'Excellent', speed: 'Excellent', cognitive: 'Excellent', manager: 'Medium', use: 'High-volume calling' },
+    { id: 3, title: 'Inbox / Task Queue', desc: 'Dense ranked list on the left, active client on the right. Familiar, fast, keyboard-friendly.', fit: 'Excellent', speed: 'Very good', cognitive: 'Very good', manager: 'Good', use: 'Mixed SDR work' },
+    { id: 4, title: 'Kanban Board', desc: 'Clients move across operational states such as Call Now, No Answer, Follow-Up and Booked.', fit: 'Good', speed: 'Medium', cognitive: 'Medium', manager: 'Excellent', use: 'Status management' },
+    { id: 5, title: 'Focus Mode', desc: 'Only the single next client is visible. Maximum focus, almost no interface decisions.', fit: 'Excellent', speed: 'Excellent', cognitive: 'Best', manager: 'Low', use: 'Pure ranked execution' },
+    { id: 6, title: 'Command Center', desc: 'Queue, current client, daily KPIs and callbacks share one desktop workspace.', fit: 'Very good', speed: 'Good', cognitive: 'Medium', manager: 'Excellent', use: 'SDR + supervisor hybrid' },
+    { id: 7, title: 'Conversation Timeline CRM', desc: 'Client context is organized chronologically around treatments, outreach and booking behavior.', fit: 'Support view', speed: 'Medium', cognitive: 'Good', manager: 'Good', use: 'Complex client context' },
+    { id: 8, title: 'Exception Queue', desc: 'The system handles normal flow; humans focus only on callbacks, barriers and unusual cases.', fit: 'Strong later', speed: 'Excellent', cognitive: 'Excellent', manager: 'Excellent', use: 'Exception handling' },
+    { id: 9, title: 'Calendar / Time-Block View', desc: 'Callbacks and scheduled touches are arranged by time rather than score alone.', fit: 'Secondary', speed: 'Good', cognitive: 'Good', manager: 'Good', use: 'Scheduled callbacks' },
+    { id: 10, title: 'Classic CRM Pipeline', desc: 'A traditional stage pipeline from New through Contacted, Qualified, Booking and Won.', fit: 'Weak primary fit', speed: 'Low', cognitive: 'Medium', manager: 'Excellent', use: 'Traditional sales pipeline' }
+  ];
+
+  function initLab_() {
+    renderModelNav_();
     google.script.run
       .withSuccessHandler(data => {
-        CRM.data = data;
-        const queue = data.queue || [];
-        if (!queue.some(item => item.actionId === CRM.selectedActionId)) {
-          CRM.selectedActionId = queue.length ? queue[0].actionId : null;
-        }
-        renderApp_();
-        showLoading_(false);
+        LAB.data = data || {};
+        const q = labQueue_();
+        LAB.selectedActionId = q.length ? q[0].actionId : null;
+        renderModel_();
       })
-      .withFailureHandler(error => {
-        showLoading_(false);
-        showError_(error && error.message ? error.message : 'Unknown Apps Script error.');
+      .withFailureHandler(() => {
+        LAB.data = { queue: sampleQueue_(), done: [], stats: { assigned: 7, remaining: 7, completed: 0, booked: 0, answered: 0 } };
+        LAB.selectedActionId = LAB.data.queue[0].actionId;
+        renderModel_();
       })
       .getMvpData();
   }
 
-  function renderApp_() {
-    if (!CRM.data) return;
-    const { queue = [], done = [], stats = {} } = CRM.data;
-
-    text_('today-tab-count', stats.remaining || 0);
-    text_('done-tab-count', stats.completed || 0);
-    text_('stat-assigned', stats.assigned || 0);
-    text_('stat-remaining', stats.remaining || 0);
-    text_('stat-booked', stats.booked || 0);
-
-    const assigned = Number(stats.assigned || 0);
-    const completed = Number(stats.completed || 0);
-    const completion = assigned ? Math.min(100, Math.round((completed / assigned) * 100)) : 100;
-    document.getElementById('progress-bar').style.width = `${completion}%`;
-    text_('progress-label', `${completion}% complete`);
-    text_('queue-count-label', `${queue.length} remaining`);
-
-    renderQueue_(queue);
-    renderSelected_();
-    renderDone_(done, stats);
-    switchView_(CRM.activeView, false);
+  function labQueue_() {
+    const q = LAB.data?.queue || [];
+    return q.length ? q : sampleQueue_();
   }
 
-  function renderQueue_(queue) {
-    const list = document.getElementById('queue-list');
-    list.innerHTML = '';
+  function sampleQueue_() {
+    return [
+      {actionId:'D001',priorityRank:1,clientName:'Ava Carter',readiness:87,daysSinceLastTx:107,personalCadence:108,lastUnits:42,provider:'Dr. Rivera',phone:'757-555-0101',callReason:'Usually returns in 104–112 days; today is day 107 and her pattern is very consistent.',growthAction:'Maintain regular cadence',lastTxDate:'2026-05-10'},
+      {actionId:'D002',priorityRank:2,clientName:'Maya Brooks',readiness:82,daysSinceLastTx:96,personalCadence:101,lastUnits:36,provider:'Dr. Rivera',phone:'757-555-0102',callReason:'Approaching her normal booking window with strong prior consistency.',growthAction:'Strengthen cadence',lastTxDate:'2026-05-21'},
+      {actionId:'D003',priorityRank:3,clientName:'Sofia Bennett',readiness:78,daysSinceLastTx:121,personalCadence:116,lastUnits:48,provider:'Dr. Chen',phone:'757-555-0103',callReason:'Five days beyond her personal cadence and no future appointment is on file.',growthAction:'Cadence rescue',lastTxDate:'2026-04-26'},
+      {actionId:'D004',priorityRank:4,clientName:'Nora Ellis',readiness:74,daysSinceLastTx:103,personalCadence:106,lastUnits:40,provider:'Dr. Chen',phone:'757-555-0104',callReason:'Inside her high-response booking window.',growthAction:'Maintain regular cadence',lastTxDate:'2026-05-14'},
+      {actionId:'D005',priorityRank:5,clientName:'Emma Stonefield',readiness:69,daysSinceLastTx:134,personalCadence:134,lastUnits:32,provider:'Dr. Rivera',phone:'757-555-0105',callReason:'Exactly at her typical cadence today.',growthAction:'Reinforce regularity',lastTxDate:'2026-04-13'},
+      {actionId:'D006',priorityRank:6,clientName:'Lena Foster',readiness:65,daysSinceLastTx:94,personalCadence:98,lastUnits:44,provider:'Dr. Chen',phone:'757-555-0106',callReason:'Entering her normal decision window.',growthAction:'Maintain cadence',lastTxDate:'2026-05-23'},
+      {actionId:'D007',priorityRank:7,clientName:'Olivia Hart',readiness:62,daysSinceLastTx:151,personalCadence:126,lastUnits:38,provider:'Dr. Rivera',phone:'757-555-0107',callReason:'Past her normal cadence with no future booking.',growthAction:'Cadence rescue',lastTxDate:'2026-03-27'}
+    ];
+  }
 
-    queue.forEach(item => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = `queue-item${item.actionId === CRM.selectedActionId ? ' is-active' : ''}`;
-      button.innerHTML = `
-        <span class="queue-rank">#${escapeHtml_(item.priorityRank)}</span>
-        <span class="queue-person">
-          <span class="queue-name">${escapeHtml_(item.clientName)}</span>
-          <span class="queue-reason">Day ${escapeHtml_(item.daysSinceLastTx)} · usual ${escapeHtml_(item.personalCadence)}d</span>
-        </span>
-        <span class="queue-score">${escapeHtml_(item.readiness)}%</span>
-      `;
-      button.addEventListener('click', () => {
-        CRM.selectedActionId = item.actionId;
-        renderQueue_(queue);
-        renderSelected_();
-      });
-      list.appendChild(button);
+  function renderModelNav_() {
+    const host = document.getElementById('model-nav-list');
+    host.innerHTML = MODELS.map(m => `
+      <button class="model-button${m.id === LAB.model ? ' is-active' : ''}" data-model="${m.id}" type="button">
+        <span class="model-index">${String(m.id).padStart(2,'0')}</span>
+        <span class="model-label">${escapeLab_(m.title)}</span>
+      </button>
+    `).join('');
+    host.querySelectorAll('[data-model]').forEach(btn => btn.onclick = () => {
+      LAB.model = Number(btn.dataset.model);
+      renderModelNav_();
+      renderModel_();
     });
   }
 
-  function renderSelected_() {
-    const queue = CRM.data?.queue || [];
-    const item = queue.find(row => row.actionId === CRM.selectedActionId) || queue[0];
-    const card = document.getElementById('client-card');
-    const empty = document.getElementById('empty-state');
+  function renderModel_() {
+    const m = MODELS.find(x => x.id === LAB.model) || MODELS[0];
+    textLab_('model-number', `MODEL ${String(m.id).padStart(2,'0')}`);
+    textLab_('model-title', m.title);
+    textLab_('model-description', m.desc);
+    textLab_('model-fit', m.fit);
+    textLab_('eval-speed', m.speed);
+    textLab_('eval-cognitive', m.cognitive);
+    textLab_('eval-manager', m.manager);
+    textLab_('eval-use', m.use);
 
-    if (!item) {
-      card.hidden = true;
-      empty.hidden = false;
-      return;
-    }
-
-    empty.hidden = true;
-    card.hidden = false;
-    CRM.selectedActionId = item.actionId;
-
-    text_('client-rank', `#${item.priorityRank}`);
-    text_('client-name', item.clientName || 'Client');
-    text_('client-readiness', `${item.readiness}% likely`);
-    text_('client-action', item.recommendedAction || 'CALL TODAY');
-    text_('client-provider', item.provider || 'Provider not listed');
-    text_('client-reason', item.callReason || 'Client is inside the recommended booking window.');
-    text_('client-days', item.daysSinceLastTx || '—');
-    text_('client-cadence', item.personalCadence || '—');
-    text_('client-last-tx', formatDate_(item.lastTxDate));
-    text_('client-units', item.lastUnits ? `${item.lastUnits} units` : '—');
-    text_('client-growth', item.growthAction || 'No separate growth action');
-    text_('client-phone', item.phone || 'Phone unavailable');
-
-    const delta = Number(item.daysSinceLastTx || 0) - Number(item.personalCadence || 0);
-    text_('cadence-delta', delta === 0 ? 'Right at typical timing' : delta > 0 ? `${delta} days past typical` : `${Math.abs(delta)} days before typical`);
-
-    const callButton = document.getElementById('call-button');
-    callButton.href = item.phone ? `tel:${String(item.phone).replace(/[^+\d]/g, '')}` : '#';
-    callButton.setAttribute('aria-label', `Call ${item.clientName}`);
-  }
-
-  function renderDone_(done, stats) {
-    text_('done-attempted', stats.completed || 0);
-    text_('done-answered', stats.answered || 0);
-    text_('done-booked', stats.booked || 0);
-    const answered = Number(stats.answered || 0);
-    text_('done-rate', answered ? `${Math.round((Number(stats.booked || 0) / answered) * 100)}%` : '0%');
-
-    const list = document.getElementById('done-list');
-    list.innerHTML = '';
-
-    if (!done.length) {
-      list.innerHTML = `<div class="empty-state" style="min-height:260px"><div><strong>No calls completed yet.</strong><p>Your completed work will appear here automatically.</p></div></div>`;
-      return;
-    }
-
-    done.forEach(row => {
-      const queueItem = (CRM.data?.allQueue || []).find(item => item.actionId === row.actionId);
-      const name = queueItem?.clientName || row.clientId || 'Client';
-      const result = row.conversationResult || row.contactResult || 'Completed';
-      const div = document.createElement('div');
-      div.className = 'done-item';
-      div.innerHTML = `
-        <div class="done-rank">#${escapeHtml_(row.priorityRank || '—')}</div>
-        <div class="done-main">
-          <strong>${escapeHtml_(name)}</strong>
-          <span>${escapeHtml_(row.contactResult || 'Attempted')}${row.recontactAfter ? ` · follow up ${escapeHtml_(formatDate_(row.recontactAfter))}` : ''}</span>
-        </div>
-        <span class="result-chip${result === 'Booked' ? ' booked' : ''}">${escapeHtml_(result)}</span>
-      `;
-      list.appendChild(div);
-    });
-  }
-
-  function handleOutcome_(outcome) {
-    const item = selectedClient_();
-    if (!item || CRM.saving) return;
-
-    if (outcome === 'Booked') {
-      openConfirmSheet_('Booking captured', `Record that ${item.clientName} booked from this conversation?`, () => saveOutcome_({ contactResult: 'Answered', conversationResult: 'Booked' }), 'Save booking');
-      return;
-    }
-
-    if (outcome === 'No Answer') {
-      openNoAnswerSheet_(item);
-      return;
-    }
-
-    if (outcome === 'Wants Later' || outcome === 'Traveling') {
-      openFollowUpSheet_(item, outcome);
-      return;
-    }
-
-    if (outcome === 'Not Ready') {
-      openSimpleSheet_(item, 'Not ready yet', 'Save this conversation and move to the next client.', 'Not Ready');
-      return;
-    }
-
-    if (outcome === 'More') openMoreSheet_(item);
-  }
-
-  function openNoAnswerSheet_(item) {
-    const firstName = String(item.clientName || 'there').split(' ')[0];
-    const message = `Hi ${firstName}, this is [Your Name] from KAADO MD. I just tried to reach you since you’re coming up around your usual treatment schedule. Text me back anytime and I can help find a good time for your next visit.`;
-    openSheet_(`
-      <h2 class="sheet-title">No answer</h2>
-      <p class="sheet-copy">Send the concierge text, then finish this attempt.</p>
-      <div class="text-preview" id="concierge-text">${escapeHtml_(message)}</div>
-      <div class="sheet-actions">
-        <button class="secondary-button" type="button" id="copy-concierge">Copy text</button>
-        <button class="primary-button" type="button" id="finish-no-text">Finish, no text</button>
-      </div>
-      <button class="primary-button" style="width:100%; margin-top:8px; background:#635bff" type="button" id="finish-with-text">Text sent & finish</button>
-    `);
-    document.getElementById('copy-concierge').onclick = () => copyText_(message, 'Text copied');
-    document.getElementById('finish-no-text').onclick = () => saveOutcome_({ contactResult: 'No Answer', textSent: false });
-    document.getElementById('finish-with-text').onclick = () => saveOutcome_({ contactResult: 'No Answer', textSent: true });
-  }
-
-  function openFollowUpSheet_(item, result) {
-    const suggested = datePlusDays_(result === 'Traveling' ? 14 : 7);
-    openSheet_(`
-      <h2 class="sheet-title">${result === 'Traveling' ? 'Client is away' : 'Call later'}</h2>
-      <p class="sheet-copy">Choose when this client should become actionable again.</p>
-      <div class="field">
-        <label for="recontact-date">RECONTACT AFTER</label>
-        <input type="date" id="recontact-date" value="${suggested}">
-      </div>
-      <div class="field">
-        <label for="followup-note">OPTIONAL NOTE</label>
-        <textarea id="followup-note" placeholder="Only add context the next caller needs."></textarea>
-      </div>
-      <div class="sheet-actions">
-        <button class="secondary-button" data-close-sheet type="button">Cancel</button>
-        <button class="primary-button" id="save-followup" type="button">Save follow-up</button>
-      </div>
-    `);
-    bindCloseButtons_();
-    document.getElementById('save-followup').onclick = () => {
-      const date = document.getElementById('recontact-date').value;
-      if (!date) return toast_('Choose a follow-up date');
-      saveOutcome_({
-        contactResult: 'Answered',
-        conversationResult: result,
-        recontactAfter: date,
-        barrier: result === 'Traveling' ? 'Travel' : 'Timing',
-        notes: document.getElementById('followup-note').value
-      });
+    const renders = {
+      1: renderNextBest_,
+      2: renderDialer_,
+      3: renderInbox_,
+      4: renderKanban_,
+      5: renderFocus_,
+      6: renderCommand_,
+      7: renderTimeline_,
+      8: renderException_,
+      9: renderCalendar_,
+      10: renderPipeline_
     };
+    document.getElementById('prototype-root').innerHTML = renders[LAB.model]();
+    bindPrototype_();
   }
 
-  function openSimpleSheet_(item, title, copy, result) {
-    openSheet_(`
-      <h2 class="sheet-title">${escapeHtml_(title)}</h2>
-      <p class="sheet-copy">${escapeHtml_(copy)}</p>
-      <div class="field">
-        <label for="simple-note">OPTIONAL NOTE</label>
-        <textarea id="simple-note" placeholder="Add only useful context."></textarea>
-      </div>
-      <div class="sheet-actions">
-        <button class="secondary-button" data-close-sheet type="button">Cancel</button>
-        <button class="primary-button" id="save-simple" type="button">Save & next</button>
-      </div>
-    `);
-    bindCloseButtons_();
-    document.getElementById('save-simple').onclick = () => saveOutcome_({ contactResult: 'Answered', conversationResult: result, barrier: result, notes: document.getElementById('simple-note').value });
+  function selectedLabClient_() {
+    const q = labQueue_();
+    return q.find(x => x.actionId === LAB.selectedActionId) || q[0];
   }
 
-  function openMoreSheet_(item) {
-    openSheet_(`
-      <h2 class="sheet-title">Other outcome</h2>
-      <p class="sheet-copy">Choose the closest result. Keep it fast and consistent.</p>
-      <div class="sheet-options">
-        <button class="sheet-option" data-more="Declined" type="button">Declined</button>
-        <button class="sheet-option" data-more="Already Planning" type="button">Already planning to book</button>
-        <button class="sheet-option" data-more="Needs Callback" type="button">Needs callback</button>
-        <button class="sheet-option" data-more="Voicemail" type="button">Left voicemail</button>
-        <button class="sheet-option" data-more="Wrong Number" type="button">Wrong number</button>
-      </div>
-      <button class="secondary-button" style="width:100%; margin-top:12px" data-close-sheet type="button">Cancel</button>
-    `);
-    bindCloseButtons_();
-    document.querySelectorAll('[data-more]').forEach(button => {
-      button.onclick = () => {
-        const value = button.dataset.more;
-        if (value === 'Needs Callback') return openFollowUpSheet_(item, 'Needs Callback');
-        if (value === 'Voicemail') return saveOutcome_({ contactResult: 'Voicemail' });
-        if (value === 'Wrong Number') return saveOutcome_({ contactResult: 'Wrong Number', barrier: 'Other' });
-        saveOutcome_({ contactResult: 'Answered', conversationResult: value, barrier: value === 'Declined' ? 'Not Interested' : 'Already Planning' });
-      };
+  function bindPrototype_() {
+    document.querySelectorAll('[data-select-action]').forEach(el => el.onclick = () => {
+      LAB.selectedActionId = el.dataset.selectAction;
+      renderModel_();
+    });
+    document.querySelectorAll('[data-sim-next]').forEach(el => el.onclick = () => {
+      const q = labQueue_();
+      const idx = q.findIndex(x => x.actionId === LAB.selectedActionId);
+      LAB.selectedActionId = q[(idx + 1 + q.length) % q.length].actionId;
+      renderModel_();
     });
   }
 
-  function openConfirmSheet_(title, copy, onConfirm, confirmLabel) {
-    openSheet_(`
-      <h2 class="sheet-title">${escapeHtml_(title)}</h2>
-      <p class="sheet-copy">${escapeHtml_(copy)}</p>
-      <div class="sheet-actions">
-        <button class="secondary-button" data-close-sheet type="button">Cancel</button>
-        <button class="primary-button" id="confirm-action" type="button">${escapeHtml_(confirmLabel || 'Confirm')}</button>
-      </div>
-    `);
-    bindCloseButtons_();
-    document.getElementById('confirm-action').onclick = onConfirm;
+  function personHero_(c) {
+    return `
+      <div class="focus-name-row"><span class="rank">#${escapeLab_(c.priorityRank)}</span><h2>${escapeLab_(c.clientName)}</h2><span class="score">${escapeLab_(c.readiness)}%</span></div>
+      <div class="focus-sub">CALL NOW · ${escapeLab_(c.provider || 'Provider')} · Day ${escapeLab_(c.daysSinceLastTx)} of usual ${escapeLab_(c.personalCadence)} days</div>
+      <div class="reason-box"><strong>Why now</strong><br>${escapeLab_(c.callReason || 'Inside the recommended booking window.')}</div>
+      <div class="metric-row" style="margin-top:10px">
+        <div class="metric-tile"><span>DAYS SINCE TX</span><strong>${escapeLab_(c.daysSinceLastTx)}</strong></div>
+        <div class="metric-tile"><span>TYPICAL CADENCE</span><strong>${escapeLab_(c.personalCadence)}d</strong></div>
+        <div class="metric-tile"><span>LAST UNITS</span><strong>${escapeLab_(c.lastUnits || '—')}</strong></div>
+        <div class="metric-tile"><span>GROWTH ACTION</span><strong style="font-size:12px">${escapeLab_(c.growthAction || '—')}</strong></div>
+      </div>`;
   }
 
-  function saveOutcome_(payload) {
-    const item = selectedClient_();
-    if (!item || CRM.saving) return;
-    CRM.saving = true;
-    setSheetBusy_(true);
-
-    google.script.run
-      .withSuccessHandler(data => {
-        CRM.saving = false;
-        CRM.data = data;
-        closeSheet_();
-        const next = data.queue?.[0];
-        CRM.selectedActionId = next ? next.actionId : null;
-        renderApp_();
-        toast_('Saved · next client ready');
-      })
-      .withFailureHandler(error => {
-        CRM.saving = false;
-        setSheetBusy_(false);
-        toast_(error && error.message ? error.message : 'Could not save outcome');
-      })
-      .recordOutcome({ actionId: item.actionId, ...payload });
+  function outcomes_() {
+    return `<div class="outcome-row">
+      <button class="outcome-mini" data-sim-next>No answer</button>
+      <button class="outcome-mini book" data-sim-next>Booked</button>
+      <button class="outcome-mini" data-sim-next>Not ready</button>
+      <button class="outcome-mini" data-sim-next>Call later</button>
+      <button class="outcome-mini" data-sim-next>Away</button>
+      <button class="outcome-mini" data-sim-next>Other</button>
+    </div>`;
   }
 
-  function selectedClient_() {
-    return (CRM.data?.queue || []).find(item => item.actionId === CRM.selectedActionId) || null;
+  function renderNextBest_() {
+    const q = labQueue_(), c = selectedLabClient_();
+    return `<div class="nba">
+      <aside class="nba-queue"><h3>Today · ${q.length} remaining</h3>${q.map(x => `<button class="nba-item${x.actionId===c.actionId?' active':''}" data-select-action="${escapeLab_(x.actionId)}"><span>#${escapeLab_(x.priorityRank)}</span><span><strong>${escapeLab_(x.clientName)}</strong><small>Day ${escapeLab_(x.daysSinceLastTx)} · usual ${escapeLab_(x.personalCadence)}d</small></span><span class="score">${escapeLab_(x.readiness)}%</span></button>`).join('')}</aside>
+      <section class="nba-focus"><div class="focus-person">${personHero_(c)}<button class="big-call">☎ Call ${escapeLab_(c.phone || '')}</button>${outcomes_()}</div></section>
+    </div>`;
   }
 
-  function openSheet_(html) {
-    document.getElementById('sheet-content').innerHTML = html;
-    document.getElementById('sheet-backdrop').hidden = false;
-    document.getElementById('action-sheet').hidden = false;
-    document.body.style.overflow = 'hidden';
+  function renderDialer_() {
+    const q = labQueue_(), c = selectedLabClient_(), next = q.filter(x=>x.actionId!==c.actionId).slice(0,4);
+    return `<div class="dialer"><div class="preview-top"><span class="preview-title">Power Dialer</span><span class="preview-meta">${q.length} calls left · auto-advance on outcome</span></div><div class="dialer-body"><div class="dialer-main"><div class="dialer-client">${personHero_(c)}<button class="big-call">Start call · ${escapeLab_(c.phone || '')}</button>${outcomes_()}</div><div class="dial-pad"><div class="dial-circle">☎</div><div style="text-align:center"><strong>${escapeLab_(c.phone || '')}</strong><div class="preview-meta" style="margin-top:6px">Ready to dial</div></div></div></div><aside class="next-stack"><h4>Up next</h4>${next.map(x=>`<div class="next-card"><strong>#${escapeLab_(x.priorityRank)} ${escapeLab_(x.clientName)}</strong><small>${escapeLab_(x.readiness)}% · Day ${escapeLab_(x.daysSinceLastTx)}</small></div>`).join('')}</aside></div></div>`;
   }
 
-  function closeSheet_() {
-    document.getElementById('sheet-backdrop').hidden = true;
-    document.getElementById('action-sheet').hidden = true;
-    document.getElementById('sheet-content').innerHTML = '';
-    document.body.style.overflow = '';
+  function renderInbox_() {
+    const q = labQueue_(), c = selectedLabClient_();
+    return `<div class="inbox"><aside class="inbox-list"><div class="inbox-toolbar"><strong>Priority inbox</strong><span class="preview-meta">${q.length} open</span></div>${q.map(x=>`<div class="mail-row${x.actionId===c.actionId?' active':''}" data-select-action="${escapeLab_(x.actionId)}"><span class="rank">#${escapeLab_(x.priorityRank)}</span><span><strong>${escapeLab_(x.clientName)}</strong><small>${escapeLab_(x.callReason || '').slice(0,48)}…</small></span><span class="score">${escapeLab_(x.readiness)}%</span></div>`).join('')}</aside><section class="inbox-detail">${personHero_(c)}<div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin:16px 0 9px"><button class="action-primary">Call ${escapeLab_(c.phone || '')}</button><button class="action-secondary">Copy phone</button></div>${outcomes_()}</section></div>`;
   }
 
-  function bindCloseButtons_() {
-    document.querySelectorAll('[data-close-sheet]').forEach(button => button.onclick = closeSheet_);
+  function renderKanban_() {
+    const q = labQueue_();
+    const cols = [
+      ['Call now', q.slice(0,4)],
+      ['No answer', q.slice(4,6)],
+      ['Follow-up', q.slice(6,7)],
+      ['Booked', []]
+    ];
+    return `<div class="kanban-wrap"><div class="preview-top" style="margin:-16px -16px 14px"><span class="preview-title">Operational board</span><span class="preview-meta">Drag/drop concept · score stays visible</span></div><div class="kanban">${cols.map(([name,items])=>`<section class="kanban-col"><div class="kanban-head"><strong>${name}</strong><span class="kanban-count">${items.length}</span></div>${items.map(x=>`<div class="kanban-card"><div style="display:flex;justify-content:space-between;gap:8px"><strong>#${escapeLab_(x.priorityRank)} ${escapeLab_(x.clientName)}</strong><span class="score">${escapeLab_(x.readiness)}%</span></div><p>Day ${escapeLab_(x.daysSinceLastTx)} · usual ${escapeLab_(x.personalCadence)}d</p><button class="action-secondary" style="min-height:34px;width:100%;font-size:10px">Open client</button></div>`).join('')}</section>`).join('')}</div></div>`;
   }
 
-  function setSheetBusy_(busy) {
-    document.querySelectorAll('#action-sheet button, #action-sheet input, #action-sheet textarea').forEach(el => el.disabled = busy);
+  function renderFocus_() {
+    const c = selectedLabClient_();
+    return `<div class="focus-mode"><div class="focus-only"><span class="rank">#${escapeLab_(c.priorityRank)}</span><h2>${escapeLab_(c.clientName)}</h2><span class="score">${escapeLab_(c.readiness)}% likely to book</span><div class="focus-sub">Day ${escapeLab_(c.daysSinceLastTx)} · typical ${escapeLab_(c.personalCadence)} days · ${escapeLab_(c.provider || '')}</div><div class="reason-box"><strong>Why this client now</strong><br>${escapeLab_(c.callReason || '')}</div><button class="big-call">☎ CALL ${escapeLab_(c.phone || '')}</button>${outcomes_()}<div class="preview-meta" style="margin-top:12px">Outcome → automatically loads the next ranked client</div></div></div>`;
   }
 
-  function switchView_(view, rerender = true) {
-    CRM.activeView = view;
-    document.querySelectorAll('.tab').forEach(tab => tab.classList.toggle('is-active', tab.dataset.view === view));
-    document.getElementById('today-view').hidden = view !== 'today';
-    document.getElementById('done-view').hidden = view !== 'done';
-    if (rerender && CRM.data) renderApp_();
+  function renderCommand_() {
+    const q=labQueue_(), c=selectedLabClient_(), stats=LAB.data?.stats||{};
+    return `<div class="command"><aside class="cmd-panel"><h3>Today</h3><div class="cmd-kpis"><div class="cmd-kpi"><span>LEFT</span><strong>${q.length}</strong></div><div class="cmd-kpi"><span>BOOKED</span><strong>${stats.booked||0}</strong></div><div class="cmd-kpi"><span>ANSWERED</span><strong>${stats.answered||0}</strong></div><div class="cmd-kpi"><span>DONE</span><strong>${stats.completed||0}</strong></div></div><h3 style="margin-top:18px">Priority queue</h3>${q.slice(0,5).map(x=>`<div class="mini-list-row" data-select-action="${escapeLab_(x.actionId)}"><strong>#${escapeLab_(x.priorityRank)} ${escapeLab_(x.clientName)} · ${escapeLab_(x.readiness)}%</strong><small>Day ${escapeLab_(x.daysSinceLastTx)} of ${escapeLab_(x.personalCadence)}</small></div>`).join('')}</aside><section class="cmd-panel cmd-focus">${personHero_(c)}<button class="big-call">Call ${escapeLab_(c.phone||'')}</button>${outcomes_()}</section><aside class="cmd-panel"><h3>Needs attention</h3><div class="mini-list-row"><strong>2 callbacks today</strong><small>Time-based follow-ups</small></div><div class="mini-list-row"><strong>1 traveling client</strong><small>Return date due soon</small></div><div class="mini-list-row"><strong>3 repeated no-answers</strong><small>Exception review</small></div><h3 style="margin-top:18px">Today pace</h3><div class="reason-box">On pace to finish the priority queue before 3:30 PM.</div></aside></div>`;
   }
 
-  function showLoading_(show) {
-    document.getElementById('loading-view').hidden = !show;
-    if (show) {
-      document.getElementById('today-view').hidden = true;
-      document.getElementById('done-view').hidden = true;
-      document.getElementById('error-view').hidden = true;
-    }
+  function renderTimeline_() {
+    const c=selectedLabClient_();
+    return `<div class="timeline"><aside class="timeline-profile"><span class="eyebrow">CLIENT</span><h2>${escapeLab_(c.clientName)}</h2><span class="score">${escapeLab_(c.readiness)}%</span><div class="focus-sub">${escapeLab_(c.phone||'')}<br>${escapeLab_(c.provider||'')}</div><div class="metric-row" style="grid-template-columns:1fr 1fr"><div class="metric-tile"><span>DAY</span><strong>${escapeLab_(c.daysSinceLastTx)}</strong></div><div class="metric-tile"><span>CADENCE</span><strong>${escapeLab_(c.personalCadence)}d</strong></div></div><button class="big-call">Call now</button></aside><section class="timeline-stream"><div class="preview-top" style="margin:-28px -28px 24px"><span class="preview-title">Client timeline</span><span class="preview-meta">Behavior + outreach + booking</span></div><div class="timeline-line"><div class="timeline-event"><time>TODAY</time><strong>Recommended concierge call · ${escapeLab_(c.readiness)}%</strong><p>${escapeLab_(c.callReason||'')}</p></div><div class="timeline-event"><time>${escapeLab_(c.daysSinceLastTx)} DAYS AGO</time><strong>Neurotoxin treatment · ${escapeLab_(c.lastUnits||'—')} units</strong><p>${escapeLab_(c.provider||'Provider')}</p></div><div class="timeline-event"><time>PRIOR CYCLE</time><strong>Booked near personal cadence</strong><p>Typical booking cadence currently ${escapeLab_(c.personalCadence)} days.</p></div><div class="timeline-event"><time>EARLIER</time><strong>Prior concierge contact</strong><p>Context and outcomes would appear here when available.</p></div></div></section></div>`;
   }
 
-  function showError_(message) {
-    text_('error-message', message);
-    document.getElementById('error-view').hidden = false;
+  function renderException_() {
+    const q=labQueue_();
+    const rows=[
+      {c:q[2]||q[0],type:'Past cadence',why:'25+ days beyond expected return timing'},
+      {c:q[4]||q[0],type:'No answer ×3',why:'Repeated failed contact needs different approach'},
+      {c:q[5]||q[0],type:'Callback due',why:'Client asked to be contacted again today'},
+      {c:q[6]||q[0],type:'Cadence rescue',why:'Regular pattern is starting to break'}
+    ];
+    return `<div class="exception"><div class="preview-top" style="margin:-18px -18px 14px"><span class="preview-title">Exception workbench</span><span class="preview-meta">Only cases requiring human judgment</span></div><div class="exception-summary"><div><span>CALLBACKS DUE</span><strong>2</strong></div><div><span>REPEATED NO ANSWER</span><strong>3</strong></div><div><span>CADENCE BREAK</span><strong>4</strong></div><div><span>OTHER BARRIERS</span><strong>1</strong></div></div><div class="exception-table"><div class="exception-row head"><span>CLIENT</span><span>EXCEPTION</span><span>SCORE</span><span>WHY</span><span>ACTION</span></div>${rows.map(r=>`<div class="exception-row"><strong>${escapeLab_(r.c.clientName)}</strong><span class="tag">${escapeLab_(r.type)}</span><span class="score">${escapeLab_(r.c.readiness)}%</span><span style="font-size:11px;color:#667085">${escapeLab_(r.why)}</span><button class="action-secondary">Resolve</button></div>`).join('')}</div></div>`;
   }
 
-  function copyText_(value, successMessage) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(value).then(() => toast_(successMessage || 'Copied')).catch(() => fallbackCopy_(value, successMessage));
-    } else fallbackCopy_(value, successMessage);
+  function renderCalendar_() {
+    const q=labQueue_();
+    const slots=['9:00','10:00','11:00','12:00','1:00','2:00','3:00','4:00'];
+    return `<div class="calendar"><section class="calendar-main"><div class="calendar-head"><div><span class="eyebrow">TUESDAY</span><strong>Callback schedule</strong></div><button class="action-secondary">Today</button></div><div class="calendar-grid">${slots.map((t,i)=>`<div class="time-cell">${t}</div><div class="slot-cell">${i===1?`<div class="calendar-event">${escapeLab_(q[1]?.clientName||'Maya Brooks')} · call back</div>`:''}${i===4?`<div class="calendar-event">${escapeLab_(q[4]?.clientName||'Emma Stonefield')} · requested afternoon</div>`:''}${i===6?`<div class="calendar-event">${escapeLab_(q[6]?.clientName||'Olivia Hart')} · travel return</div>`:''}</div>`).join('')}</div></section><aside class="calendar-side"><h3>Unscheduled priority</h3>${q.slice(0,4).map(x=>`<div class="next-card"><strong>#${escapeLab_(x.priorityRank)} ${escapeLab_(x.clientName)}</strong><small>${escapeLab_(x.readiness)}% · call when free</small></div>`).join('')}<div class="reason-box" style="margin-top:14px">Best as a secondary page for callbacks—not as the primary ranking interface.</div></aside></div>`;
   }
 
-  function fallbackCopy_(value, successMessage) {
-    const area = document.createElement('textarea');
-    area.value = value; document.body.appendChild(area); area.select();
-    try { document.execCommand('copy'); toast_(successMessage || 'Copied'); } catch { toast_('Select and copy manually'); }
-    area.remove();
+  function renderPipeline_() {
+    const q=labQueue_();
+    const stages=[['New priority',q.slice(0,3)],['Contacted',q.slice(3,5)],['Qualified',q.slice(5,6)],['Booking',q.slice(6,7)],['Won',[]]];
+    return `<div class="pipeline"><div class="preview-top" style="margin:-16px -16px 14px"><span class="preview-title">Traditional CRM pipeline</span><span class="preview-meta">Included for comparison</span></div><div class="pipeline-board">${stages.map(([name,items])=>`<section class="pipeline-stage"><h4>${name} · ${items.length}</h4>${items.map(x=>`<div class="pipeline-card"><div style="display:flex;justify-content:space-between;gap:6px"><strong>${escapeLab_(x.clientName)}</strong><span class="score">${escapeLab_(x.readiness)}%</span></div><small>Day ${escapeLab_(x.daysSinceLastTx)} · usual ${escapeLab_(x.personalCadence)}d</small><small>${escapeLab_(x.provider||'')}</small></div>`).join('')}</section>`).join('')}</div></div>`;
   }
 
-  function toast_(message) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.hidden = false;
-    clearTimeout(toast._timer);
-    toast._timer = setTimeout(() => toast.hidden = true, 2200);
-  }
+  function textLab_(id,value){ const el=document.getElementById(id); if(el) el.textContent=value; }
+  function escapeLab_(value){ return String(value==null?'':value).replace(/[&<>'"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch])); }
 
-  function text_(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value == null || value === '' ? '—' : value;
-  }
-
-  function formatDate_(value) {
-    if (!value) return '—';
-    const date = new Date(`${String(value).slice(0,10)}T12:00:00`);
-    if (isNaN(date.getTime())) return value;
-    return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-  }
-
-  function datePlusDays_(days) {
-    const date = new Date();
-    date.setDate(date.getDate() + days);
-    const pad = n => String(n).padStart(2, '0');
-    return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}`;
-  }
-
-  function escapeHtml_(value) {
-    return String(value == null ? '' : value)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-  }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => switchView_(tab.dataset.view)));
-    document.querySelectorAll('[data-switch]').forEach(button => button.addEventListener('click', () => switchView_(button.dataset.switch)));
-    document.querySelectorAll('[data-outcome]').forEach(button => button.addEventListener('click', () => handleOutcome_(button.dataset.outcome)));
-    document.getElementById('refresh-btn').addEventListener('click', loadApp_);
-    document.getElementById('error-retry').addEventListener('click', loadApp_);
-    document.getElementById('sheet-backdrop').addEventListener('click', closeSheet_);
-    document.getElementById('copy-phone').addEventListener('click', () => {
-      const item = selectedClient_();
-      if (item?.phone) copyText_(item.phone, 'Phone copied');
-    });
-    loadApp_();
-  });
+  document.addEventListener('DOMContentLoaded', initLab_);
 </script>
   
 
