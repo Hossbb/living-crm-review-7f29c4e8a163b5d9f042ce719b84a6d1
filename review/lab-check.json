@@ -1,0 +1,65 @@
+{
+  "allModelsPassed": true,
+  "models": [
+    {
+      "id": 1,
+      "title": "Next-Best-Action Queue",
+      "rendered": true,
+      "preview": "Today · 7 remaining\n#1\nAva Carter\nDay 107 · usual 108d\n87%\n#2\nMaya Brooks\nDay 96 · usual 101d\n82%\n#3\nSofia Bennett\nDay 121 · usual 116d\n78%\n#4\nNora Ellis\nDay 103 · usual 106d\n74%\n#"
+    },
+    {
+      "id": 2,
+      "title": "Power-Dialer Workspace",
+      "rendered": true,
+      "preview": "Power Dialer\n7 calls left · auto-advance on outcome\n#1\nAva Carter\n87%\nCALL NOW · Dr. Rivera · Day 107 of usual 108 days\nWhy now\nUsually returns in 104–112 days; today is day 107 an"
+    },
+    {
+      "id": 3,
+      "title": "Inbox / Task Queue",
+      "rendered": true,
+      "preview": "Priority inbox\n7 open\n#1\nAva Carter\nUsually returns in 104–112 days; today is day 10…\n87%\n#2\nMaya Brooks\nHigh cycle-completion history and now entering h…\n82%\n#3\nSofia Bennett\nHist"
+    },
+    {
+      "id": 4,
+      "title": "Kanban Board",
+      "rendered": true,
+      "preview": "Operational board\nDrag/drop concept · score stays visible\nCall now\n4\n#1 Ava Carter\n87%\n\nDay 107 · usual 108d\n\nOpen client\n#2 Maya Brooks\n82%\n\nDay 96 · usual 101d\n\nOpen client\n#3 So"
+    },
+    {
+      "id": 5,
+      "title": "Focus Mode",
+      "rendered": true,
+      "preview": "#1\nAva Carter\n87% likely to book\nDay 107 · typical 108 days · Dr. Rivera\nWhy this client now\nUsually returns in 104–112 days; today is day 107 and her pattern is very consistent.\n☎"
+    },
+    {
+      "id": 6,
+      "title": "Command Center",
+      "rendered": true,
+      "preview": "Today\nLEFT\n7\nBOOKED\n0\nANSWERED\n0\nDONE\n0\nPriority queue\n#1 Ava Carter · 87%\nDay 107 of 108\n#2 Maya Brooks · 82%\nDay 96 of 101\n#3 Sofia Bennett · 78%\nDay 121 of 116\n#4 Nora Ellis · 7"
+    },
+    {
+      "id": 7,
+      "title": "Conversation Timeline CRM",
+      "rendered": true,
+      "preview": "CLIENT\nAva Carter\n87%\n757-555-0101\nDr. Rivera\nDAY\n107\nCADENCE\n108d\nCall now\nClient timeline\nBehavior + outreach + booking\nTODAY\nRecommended concierge call · 87%\n\nUsually returns in"
+    },
+    {
+      "id": 8,
+      "title": "Exception Queue",
+      "rendered": true,
+      "preview": "Exception workbench\nOnly cases requiring human judgment\nCALLBACKS DUE\n2\nREPEATED NO ANSWER\n3\nCADENCE BREAK\n4\nOTHER BARRIERS\n1\nCLIENT\nEXCEPTION\nSCORE\nWHY\nACTION\nSofia Bennett\nPast c"
+    },
+    {
+      "id": 9,
+      "title": "Calendar / Time-Block View",
+      "rendered": true,
+      "preview": "TUESDAY\nCallback schedule\nToday\n9:00\n10:00\nMaya Brooks · call back\n11:00\n12:00\n1:00\nEmma Stonefield · requested afternoon\n2:00\n3:00\nOlivia Hart · travel return\n4:00\nUnscheduled pri"
+    },
+    {
+      "id": 10,
+      "title": "Classic CRM Pipeline",
+      "rendered": true,
+      "preview": "Traditional CRM pipeline\nIncluded for comparison\nNEW PRIORITY · 3\nAva Carter\n87%\nDay 107 · usual 108d\nDr. Rivera\nMaya Brooks\n82%\nDay 96 · usual 101d\nDr. Chen\nSofia Bennett\n78%\nDay "
+    }
+  ]
+}
