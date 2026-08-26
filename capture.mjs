@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 import fs from 'node:fs';
 
 const reviewUrl = 'https://hossbb.github.io/living-crm-review-7f29c4e8a163b5d9f042ce719b84a6d1/';
-const appUrl = 'https://script.google.com/macros/s/AKfycbyAbfQz8QH8nj8tFzmitHnO3I5Kb1QowZDIa47v1UwsrModv2CZXqvTd_UJx97faXiNXg/exec';
+const appUrl = 'https://script.google.com/macros/s/AKfycbyAbfQz8QH8nj8tFzmitHnO3I5Kb1QowZDIa47v1UwsrModv2CZXqvTd_UJx97faXiNXg/exec?lab=1';
 fs.mkdirSync('review', { recursive: true });
 
 const browser = await chromium.launch({ headless: true });
@@ -35,7 +35,7 @@ for (const frame of frames) {
 }
 
 const appCandidate =
-  candidates.find(item => /TODAY'S WORKLIST|WHY TODAY|Living CRM|Ava Carter/i.test(item.text)) ||
+  candidates.find(item => /SDR Design Lab|Next-Best-Action|Power Dialer|Kanban|Living CRM|Ava Carter/i.test(item.text)) ||
   candidates.sort((a, b) => b.text.length - a.text.length)[0] ||
   null;
 
@@ -52,9 +52,9 @@ fs.writeFileSync('review/meta.json', JSON.stringify({
   appUrl,
   renderedUrl,
   frameCount: frames.length,
-  matchedLivingCrm: /TODAY'S WORKLIST|WHY TODAY|Living CRM|Ava Carter/i.test(appText)
+  matchedLivingCrm: /SDR Design Lab|Next-Best-Action|Power Dialer|Kanban|Living CRM|Ava Carter/i.test(appText)
 }, null, 2), 'utf8');
 
 await browser.close();
 
-// Review capture version 9 — verify sam-baba live app and sheet access.
+// Review capture version 10 — verify SDR design lab route.
