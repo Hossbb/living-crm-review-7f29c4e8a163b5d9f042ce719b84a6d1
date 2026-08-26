@@ -2,97 +2,53 @@ import { chromium } from 'playwright';
 import fs from 'node:fs';
 
 const reviewUrl = 'https://hossbb.github.io/living-crm-review-7f29c4e8a163b5d9f042ce719b84a6d1/';
-const appUrl = 'https://script.google.com/macros/s/AKfycbyAbfQz8QH8nj8tFzmitHnO3I5Kb1QowZDIa47v1UwsrModv2CZXqvTd_UJx97faXiNXg/exec?lab=1';
+const appUrl = 'https://hossbb.github.io/living-crm-review-7f29c4e8a163b5d9f042ce719b84a6d1/lab.html';
 fs.mkdirSync('review', { recursive: true });
 
 const browser = await chromium.launch({ headless: true });
-const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 const logs = [];
-page.on('console', msg => logs.push(`[console:${msg.type()}] ${msg.text()}`));
-page.on('pageerror', err => logs.push(`[pageerror] ${err.message}`));
-page.on('requestfailed', req => logs.push(`[requestfailed] ${req.url()} :: ${req.failure()?.errorText || ''}`));
 
-await page.goto(appUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
-await page.waitForTimeout(12000);
+async function testViewport(name, viewport) {
+  const page = await browser.newPage({ viewport });
+  page.on('console', msg => logs.push(`[${name} console:${msg.type()}] ${msg.text()}`));
+  page.on('pageerror', err => logs.push(`[${name} pageerror] ${err.message}`));
+  page.on('requestfailed', req => logs.push(`[${name} requestfailed] ${req.url()} :: ${req.failure()?.errorText || ''}`));
 
-const frames = page.frames();
-let labFrame = null;
-for (const frame of frames) {
-  try {
-    const text = await frame.locator('body').innerText();
-    if (/SDR Design Lab/i.test(text)) {
-      labFrame = frame;
-      break;
-    }
-  } catch {}
-}
-
-const modelChecks = [];
-if (labFrame) {
-  for (let i = 1; i <= 10; i++) {
-    const button = labFrame.locator(`[data-model="${i}"]`);
+  await page.goto(appUrl, { waitUntil: 'networkidle', timeout: 60000 });
+  const checks = [];
+  for (let i = 0; i < 10; i++) {
+    const button = page.locator(`[data-model="${i}"]`);
     if (await button.count()) {
       await button.click();
-      await labFrame.waitForTimeout(250);
-      const title = await labFrame.locator('#model-title').innerText().catch(() => '');
-      const prototypeText = await labFrame.locator('#prototype-root').innerText().catch(() => '');
-      modelChecks.push({
-        id: i,
-        title,
-        rendered: prototypeText.trim().length > 20,
-        preview: prototypeText.trim().slice(0, 180)
-      });
-    } else {
-      modelChecks.push({ id: i, title: '', rendered: false, preview: 'model button missing' });
-    }
+      await page.waitForTimeout(120);
+      const title = await page.locator('#title').innerText().catch(() => '');
+      const prototypeText = await page.locator('#stage').innerText().catch(() => '');
+      checks.push({id:i+1,title,rendered:prototypeText.trim().length>20,preview:prototypeText.trim().slice(0,160)});
+    } else checks.push({id:i+1,title:'',rendered:false,preview:'model button missing'});
   }
-  await labFrame.locator('[data-model="1"]').click().catch(() => {});
-  await labFrame.waitForTimeout(200);
+  await page.locator('[data-model="0"]').click().catch(() => {});
+  await page.waitForTimeout(100);
+  await page.screenshot({ path: `review/lab-${name}.png`, fullPage: true });
+  const text = await page.locator('body').innerText();
+  const html = await page.content();
+  const renderedUrl = page.url();
+  await page.close();
+  return {name,viewport,renderedUrl,matched:/SDR Design Lab|Next-Best-Action|Ava Carter/i.test(text),allModelsPassed:checks.length===10&&checks.every(x=>x.rendered&&x.title),checks,text,html};
 }
 
-await page.screenshot({ path: 'review/latest.png', fullPage: true });
-await page.pdf({
-  path: 'review/latest.pdf',
-  width: '1440px',
-  height: '1000px',
-  printBackground: true,
-  margin: { top: '0px', right: '0px', bottom: '0px', left: '0px' }
-});
+const desktop = await testViewport('desktop', { width: 1440, height: 1000 });
+const mobile = await testViewport('mobile', { width: 390, height: 844 });
 
-const candidates = [];
-for (const frame of page.frames()) {
-  let text = '';
-  let html = '';
-  try { text = await frame.locator('body').innerText(); } catch {}
-  try { html = await frame.content(); } catch {}
-  candidates.push({ text, html, url: frame.url() });
-}
-
-const appCandidate =
-  candidates.find(item => /SDR Design Lab|Next-Best-Action|Power Dialer|Kanban|Living CRM|Ava Carter/i.test(item.text)) ||
-  candidates.sort((a, b) => b.text.length - a.text.length)[0] ||
-  null;
-
-const appText = appCandidate?.text || '';
-const appHtml = appCandidate?.html || '';
-const renderedUrl = page.url();
-
-fs.writeFileSync('review/latest.txt', appText, 'utf8');
-fs.writeFileSync('review/latest-app.html', appHtml, 'utf8');
+fs.writeFileSync('review/latest.txt', desktop.text, 'utf8');
+fs.writeFileSync('review/latest-app.html', desktop.html, 'utf8');
 fs.writeFileSync('review/console.txt', logs.join('\n'), 'utf8');
 fs.writeFileSync('review/lab-check.json', JSON.stringify({
-  allModelsPassed: modelChecks.length === 10 && modelChecks.every(x => x.rendered && x.title),
-  models: modelChecks
+  allModelsPassed: desktop.allModelsPassed && mobile.allModelsPassed,
+  desktop: { matched: desktop.matched, renderedUrl: desktop.renderedUrl, models: desktop.checks },
+  mobile: { matched: mobile.matched, renderedUrl: mobile.renderedUrl, models: mobile.checks }
 }, null, 2), 'utf8');
-fs.writeFileSync('review/meta.json', JSON.stringify({
-  capturedAt: new Date().toISOString(),
-  reviewUrl,
-  appUrl,
-  renderedUrl,
-  frameCount: page.frames().length,
-  matchedLivingCrm: /SDR Design Lab|Next-Best-Action|Power Dialer|Kanban|Living CRM|Ava Carter/i.test(appText)
-}, null, 2), 'utf8');
+fs.writeFileSync('review/meta.json', JSON.stringify({capturedAt:new Date().toISOString(),reviewUrl,appUrl,desktopUrl:desktop.renderedUrl,mobileUrl:mobile.renderedUrl}, null, 2), 'utf8');
 
 await browser.close();
 
-// Review capture version 11 — test all 10 SDR design lab models.
+// Review capture version 12 — standalone GitHub Pages lab, desktop + mobile.
