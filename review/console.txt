@@ -1,11 +1,11 @@
-[console:warning] Unrecognized feature: 'local-network-access'.
-[console:warning] Unrecognized feature: 'web-share'.
-[console:warning] An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
-[console:error] Potential permissions policy violation: camera is not allowed in this document.
-[console:error] Potential permissions policy violation: microphone is not allowed in this document.
-[console:error] Potential permissions policy violation: usb is not allowed in this document.
-[console:error] Potential permissions policy violation: camera is not allowed in this document.
-[console:error] Potential permissions policy violation: microphone is not allowed in this document.
-[console:error] Potential permissions policy violation: usb is not allowed in this document.
-[console:info] Net state changed from IDLE to BUSY
-[console:info] Net state changed from BUSY to IDLE
+[desktop console:warning] Unrecognized feature: 'local-network-access'.
+[desktop console:warning] Unrecognized feature: 'web-share'.
+[desktop console:warning] An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+[desktop console:error] Potential permissions policy violation: camera is not allowed in this document.
+[desktop console:error] Potential permissions policy violation: microphone is not allowed in this document.
+[desktop console:error] Potential permissions policy violation: usb is not allowed in this document.
+[desktop console:error] Potential permissions policy violation: camera is not allowed in this document.
+[desktop console:error] Potential permissions policy violation: microphone is not allowed in this document.
+[desktop console:error] Potential permissions policy violation: usb is not allowed in this document.
+[desktop console:info] Net state changed from IDLE to BUSY
+[desktop console:info] Net state changed from BUSY to IDLE
