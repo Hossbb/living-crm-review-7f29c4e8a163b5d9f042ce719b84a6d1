@@ -51,4 +51,4 @@ fs.writeFileSync('review/meta.json', JSON.stringify({capturedAt:new Date().toISO
 
 await browser.close();
 
-// Review capture version 12 — standalone GitHub Pages lab, desktop + mobile.
+// Review capture version 13 — retest standalone GitHub Pages lab after Pages refresh.
